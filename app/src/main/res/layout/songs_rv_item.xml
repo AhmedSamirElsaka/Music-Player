@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_8sdp"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/black">
+
+
+    <TextView
+        android:id="@+id/artistNameTv_artists"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foregroundTint="@color/main_color"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_16ssp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="hello ahmed" />
+
+    <TextView
+        android:id="@+id/artistNameTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foregroundTint="@color/main_color"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="@+id/artistNameTv_artists"
+        app:layout_constraintStart_toStartOf="@+id/artistNameTv_artists"
+        app:layout_constraintTop_toBottomOf="@+id/artistNameTv_artists"
+        tools:text="AbbaVEVO"
+        android:alpha="0.5"
+        android:layout_marginTop="8dp"
+        />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_marginHorizontal="16dp"
+        android:alpha="0.5"
+        android:src="@drawable/three_dots"
+        app:layout_constraintBottom_toBottomOf="@+id/artistNameTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/artistNameTv_artists"
+        app:layout_constraintVertical_bias="0.031"
+        app:tint="@color/white" />
+
+
+    <TextView
+        android:id="@+id/playedSongNameTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foregroundTint="@color/main_color"
+        android:textColor="@color/main_color"
+        android:textSize="@dimen/_16ssp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/playedImageView"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:text="hello ahmed" />
+
+    <TextView
+        android:id="@+id/playedArtistNameTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:foregroundTint="@color/main_color"
+        android:textColor="@color/main_color"
+        android:textSize="@dimen/_12ssp"
+        app:layout_constraintEnd_toEndOf="@+id/playedSongNameTv"
+        app:layout_constraintStart_toStartOf="@+id/playedSongNameTv"
+        app:layout_constraintTop_toBottomOf="@+id/playedSongNameTv"
+        tools:text="AbbaVEVO"
+        android:layout_marginTop="8dp"
+        />
+
+    <ImageView
+        android:id="@+id/playedImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:layout_marginHorizontal="16dp"
+        android:alpha="0.5"
+        android:src="@drawable/three_dots"
+        app:layout_constraintBottom_toBottomOf="@+id/playedArtistNameTv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/playedSongNameTv"
+        app:layout_constraintVertical_bias="0.031"
+        app:tint="@color/white" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/nonPlayedGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="artistNameTv , imageView , artistNameTv_artists"
+        android:visibility="visible"
+        android:foregroundTint="@color/main_color"/>
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/PlayedGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="playedArtistNameTv , playedImageView , playedSongNameTv"
+        android:visibility="gone"
+        android:foregroundTint="@color/main_color"/>
+</androidx.constraintlayout.widget.ConstraintLayout>
