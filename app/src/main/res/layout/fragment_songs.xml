@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+
+    <data >
+        <variable
+            name="viewModel"
+                type="com.example.musicplayer.ui.homeFragment.HomeViewModel" />
+
+<!--        <variable-->
+<!--            name="musicViewModel"-->
+<!--            type="com.example.musictestagain.ui.musicPlayer.MusicPlayerViewModel" />-->
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,7 +50,6 @@
         android:id="@+id/songsCountTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="370 songs"
         android:alpha="0.3"
         android:layout_marginStart="@dimen/_8sdp"
         android:textColor="@color/white"
@@ -67,8 +77,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/songsRv"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        tools:listitem="@layout/songs_rv_item"
         android:layout_marginHorizontal="16dp"
         android:layout_marginVertical="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -76,4 +87,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/songsCountTv" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <ProgressBar
+            android:id="@+id/loading_anim"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.432"
+            android:indeterminateTint="@color/white"
+            app:showVisibleWhenLoading="@{viewModel.audioList}"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
