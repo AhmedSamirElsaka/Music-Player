@@ -35,14 +35,14 @@
         android:lines="1"
         android:textAlignment="textStart"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/nonPlayedMoreImage"
+        app:layout_constraintEnd_toStartOf="@+id/artistMoreImage"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:text="hello ahmed" />
 
     <TextView
-        android:id="@+id/nonPlayedSongArtistNameTv"
+        android:id="@+id/artistNameTv"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:foregroundTint="@color/main_color"
@@ -60,13 +60,13 @@
         android:layout_marginTop="8dp" />
 
     <ImageView
-        android:id="@+id/nonPlayedMoreImage"
+        android:id="@+id/artistMoreImage"
         android:layout_width="@dimen/_16sdp"
         android:layout_height="@dimen/_16sdp"
         android:scaleType="centerCrop"
         android:alpha="0.5"
         android:src="@drawable/three_dots"
-        app:layout_constraintBottom_toBottomOf="@+id/nonPlayedSongArtistNameTv"
+        app:layout_constraintBottom_toBottomOf="@+id/artistNameTv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/nonPlayedSongNameTv"
         app:layout_constraintVertical_bias="0.5"
@@ -122,7 +122,7 @@
         android:id="@+id/nonPlayedGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:constraint_referenced_ids="nonPlayedSongArtistNameTv , nonPlayedMoreImage , nonPlayedSongArtistNameTv"
+        app:constraint_referenced_ids="artistNameTv , artistMoreImage , artistNameTv"
         android:visibility="visible"
         android:foregroundTint="@color/main_color"/>
 

@@ -1,60 +1,59 @@
 package com.example.musicplayer.ui.albumFragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
+import android.util.Log
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
+import com.example.musicplayer.data.model.SongModel
+import com.example.musicplayer.databinding.FragmentAlbumBinding
+import com.example.musicplayer.ui.base.BaseFragment
+import com.example.musicplayer.utilities.UiState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+@AndroidEntryPoint
+class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
+    override val layoutFragmentId: Int = R.layout.fragment_album
+    override val viewModel: AlbumViewModel by viewModels()
+    lateinit var albumAdapter: AlbumAdapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AlbumFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class AlbumFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+        viewModel.loadAlbumsFiles()
+        viewModel.getAlbumArts()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+//        var song1 = SongModel("rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg")
+
+        albumAdapter = AlbumAdapter(mutableListOf(), this, requireContext())
+
+
+        binding.AlbumsRv.apply {
+            adapter = albumAdapter
+            layoutManager = LinearLayoutManager(context)
+        }
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.albumList.collect {
+                if (it is UiState.Success) {
+                    albumAdapter.setData((it.data.values.toList()).sortedBy { it.albumName })
+                    "${it.data.size} songs".also { binding.albumsCountTv.text = it }
+                }
+            }
+        }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.albumArts.collect {
+                if (it is UiState.Success) {
+                    Log.i("hello", it.data.values.toString())
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_album, container, false)
-    }
-
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AlbumFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AlbumFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onAlbumClick(artist: SongModel) {
+        TODO("Not yet implemented")
     }
 }
