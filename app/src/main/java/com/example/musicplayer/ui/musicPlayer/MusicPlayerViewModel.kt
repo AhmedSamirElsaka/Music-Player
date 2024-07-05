@@ -1,6 +1,7 @@
 package com.example.musicplayer.ui.musicPlayer
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.media3.exoplayer.ExoPlayer
@@ -57,7 +58,7 @@ class MusicPlayerViewModel @Inject constructor(
     init {
         player.addListener(playerController)
         playerController.setupMediaNotification(context)
-
+        Log.i("test", "test")
     }
 
     fun onPlayerEvents(event: PlayerEvents) {
