@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/find_local_songs"
+        android:title="Find Local Songs"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/sort_by"
+        android:title="Sort by "
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/manage_songs"
+        android:title="Manage Songs"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/settings"
+        android:title="Settings"
+        app:showAsAction="always" />
+</menu>

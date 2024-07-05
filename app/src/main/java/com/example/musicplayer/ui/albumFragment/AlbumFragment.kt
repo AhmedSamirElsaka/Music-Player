@@ -23,7 +23,7 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadAlbumsFiles()
-        viewModel.getAlbumArts()
+//        viewModel.getAlbumArts()
 
 //        var song1 = SongModel("rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg")
 
@@ -44,13 +44,13 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
                 }
             }
         }
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.albumArts.collect {
-                if (it is UiState.Success) {
-                    Log.i("hello", it.data.values.toString())
-                }
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewModel.albumArts.collect {
+//                if (it is UiState.Success) {
+//                    Log.i("hello", it.data.toString())
+//                }
+//            }
+//        }
     }
 
     override fun onAlbumClick(artist: SongModel) {

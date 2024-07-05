@@ -47,9 +47,9 @@ class AlbumAdapter(
         holder.binding.artistNameTv.text = item.albumCreator
 
         Log.i("hello",item.albumArt.toString() )
-//        if (item.albumArt != null) {
-//            Glide.with(context).load(item.albumArt).into(holder.binding.albumImage);
-//        }
+        if (item.albumArt != null) {
+            Glide.with(context).load(item.albumArt).into(holder.binding.albumImage);
+        }
 //        holder.binding.artistNameTv.text = list[position].artistName
 //        holder.binding.song = list[position]
 ////        Log.i("hello", "onBindViewHolder")

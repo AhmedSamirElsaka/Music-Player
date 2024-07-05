@@ -1,8 +1,10 @@
 package com.example.musicplayer.ui.artistFragment
 
 import android.content.ContentResolver
+import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
+import android.net.Uri
 import android.provider.MediaStore
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayer.data.model.ArtistModel
@@ -74,6 +76,8 @@ class ArtistViewModel @Inject constructor(
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_ADDED))
                     val songMimeType =
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE))
+                    val songArt = getSongArtUri(songId.toLong())
+
                     val song = SongModel(
                         songName,
                         songPath,
@@ -82,7 +86,8 @@ class ArtistViewModel @Inject constructor(
                         songDuration,
                         songAlbum,
                         songDateAdded,
-                        songMimeType.toString()
+                        songMimeType.toString(),
+                        songArt
                     )
                     if (!song.songPath.contains("opus") && !song.songName.contains("AUD")) {
                         if (!audioFilesGroupedByArtist.containsKey(songArtist)) {
@@ -99,6 +104,10 @@ class ArtistViewModel @Inject constructor(
             _audioListGroupedByArtist.value = UiState.Success(audioFilesGroupedByArtist)
 
         }
+    }
+
+    private fun getSongArtUri(songId: Long): Uri? {
+        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/media"), songId)
     }
 }
 

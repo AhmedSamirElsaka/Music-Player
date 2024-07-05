@@ -1,5 +1,6 @@
 package com.example.musicplayer.data.model
 
+import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 
 data class SongModel(
@@ -10,5 +11,6 @@ data class SongModel(
     val songDuration :Long ,
     val songAlbum:String ,
     val songDateAdded :Long ,
-    val songMimeType:String
+    val songMimeType:String ,
+    val songArt: Uri?
 )
