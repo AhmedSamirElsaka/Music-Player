@@ -79,21 +79,18 @@
                 app:layout_constraintVertical_bias="0.0"
                 tools:text="hello ahmed samir mohamed " />
 
-
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView3"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_250sdp"
                 android:layout_margin="32dp"
-                android:background="@drawable/song_image_shape"
-                android:clipToOutline="true"
                 android:scaleType="centerCrop"
                 android:src="@drawable/storytel4997"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/songArtistTv"
-                app:layout_constraintVertical_bias="0" />
-
+                app:layout_constraintVertical_bias="0"
+                app:shapeAppearanceOverlay="@style/playedSongDialogRoundedCornersImageView" />
 
             <SeekBar
                 android:id="@+id/music_progress_seekbar"

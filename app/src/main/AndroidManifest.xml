@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <application
         android:allowBackup="true"
@@ -25,15 +26,13 @@
         </activity>
 
         <service
-            android:name=".player.MusicService"
+            android:name=".player.player.MediaService"
             android:exported="true"
-            android:permission="android.permission.BIND_MEDIA_SESSION_SERVICE">
+            android:foregroundServiceType="mediaPlayback">
             <intent-filter>
-                <action android:name="android.media.MediaBrowserService" />
+                <action android:name="androidx.media3.session.MediaSessionService" />
             </intent-filter>
         </service>
-
-        <receiver android:name=".player.MediaButtonReceiver" />
     </application>
 
 </manifest>

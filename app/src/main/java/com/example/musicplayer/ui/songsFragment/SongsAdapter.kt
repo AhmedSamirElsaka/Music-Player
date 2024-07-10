@@ -40,6 +40,8 @@ class SongsAdapter(
 //        Log.i("hello",  list[position].songName)
         holder.binding.nonPlayedSongNameTv.text = list[position].songName
         holder.binding.listener = listener
+        holder.binding.position = position
+
     }
 
     override fun getItemCount(): Int = list.size
@@ -51,7 +53,7 @@ class SongsAdapter(
 }
 
 interface OnSongsListener {
-    fun onSongClick(audio: SongModel)
+    fun onSongClick(audio: SongModel , position: Int)
     fun onMoreImageClick()
 }
 
