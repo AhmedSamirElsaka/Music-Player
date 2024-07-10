@@ -57,7 +57,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
                     songsAdapter.setData((it.data).sortedByDescending { it.songDateAdded })
                     val bottomSheetFragment = MusicBottomSheetFragment()
                     bottomSheetFragment.show(parentFragmentManager, "MusicBottomSheetFragment")
-                    "${it.data.size} songs".also { binding.songsCountTv.text = it }
+
                 }
             }
         }
