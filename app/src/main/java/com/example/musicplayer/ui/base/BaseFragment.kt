@@ -14,7 +14,7 @@ abstract class BaseFragment<VDB : ViewDataBinding> : Fragment() {
     abstract val layoutFragmentId : Int
     abstract val viewModel : ViewModel
     private lateinit var _binding : VDB
-    protected val binding : VDB get() = _binding
+     val binding : VDB get() = _binding
 
 
 

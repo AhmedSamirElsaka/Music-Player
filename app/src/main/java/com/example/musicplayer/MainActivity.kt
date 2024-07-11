@@ -1,16 +1,26 @@
 package com.example.musicplayer
 
 import android.Manifest
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
+import com.example.musicplayer.utilities.LAST_PLAYED_SONG
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    val viewModel: MusicPlayerViewModel by viewModels()
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -44,5 +54,10 @@ class MainActivity : AppCompatActivity() {
             requestPermission()
         }
     }
+
+
+
+
+
 
 }

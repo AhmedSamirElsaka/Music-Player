@@ -15,4 +15,7 @@ sealed class PlayerEvents {
     object  Repeat : PlayerEvents()
     object  SeekForward : PlayerEvents()
     object  SeekBack : PlayerEvents()
+
+    data class  MoveToSpecificPosition(val position:Long) : PlayerEvents()
+
 }

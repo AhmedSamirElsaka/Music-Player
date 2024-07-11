@@ -2,12 +2,13 @@ package com.example.musicplayer.player.player
 
 import android.content.ComponentName
 import android.content.Context
-import androidx.core.net.toUri
+import android.content.SharedPreferences
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
 import androidx.media3.exoplayer.ExoPlayer
-import androidx.media3.session.*
+import androidx.media3.session.MediaController
+import androidx.media3.session.SessionToken
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.utilities.toMusicItem
 import com.google.common.util.concurrent.ListenableFuture
@@ -16,8 +17,9 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PlayerController (
+class PlayerController(
     private val player: ExoPlayer,
     private var currentSong: MutableStateFlow<SongModel>,
     private var currentMediaPosition: MutableStateFlow<Float>,
@@ -28,11 +30,16 @@ class PlayerController (
     private var isShuffleClicked: MutableStateFlow<Boolean>,
     private var isRepeatClicked: MutableStateFlow<Boolean>,
     private val viewModelScope: CoroutineScope
-) : Player.Listener{
+) : Player.Listener {
 
     var duration: Long = 0
 
     private lateinit var controller: ListenableFuture<MediaController>
+
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
+
+
 
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
         super.onMediaItemTransition(mediaItem, reason)
@@ -55,17 +62,20 @@ class PlayerController (
         when (playbackState) {
             Player.STATE_ENDED -> {
                 if (player.hasNextMediaItem()) {
-                    if(player.hasNextMediaItem()) nextItem()
+                    if (player.hasNextMediaItem()) nextItem()
                 }
             }
+
             Player.STATE_BUFFERING -> {
                 isPlayerBuffering.value = true
             }
+
             Player.STATE_IDLE -> {
                 currentMediaProgressInMinutes.value = 0L
                 currentMediaDurationInMinutes.value = 0L
                 isPlayerBuffering.value = false
             }
+
             Player.STATE_READY -> {
                 isPlayerBuffering.value = false
             }
@@ -73,20 +83,20 @@ class PlayerController (
     }
 
 
-    fun  pauseOrPlay() {
+    fun pauseOrPlay() {
         if (player.isPlaying) {
             player.pause()
         } else {
             player.play()
         }
-       currentSong.value = toMusicItem(player.currentMediaItem!!)
+        currentSong.value = toMusicItem(player.currentMediaItem!!)
     }
 
     fun shuffleClick() {
         if (isShuffleClicked.value) {
             isShuffleClicked.value = false
             player.shuffleModeEnabled = isShuffleClicked.value
-        }else{
+        } else {
             isShuffleClicked.value = true
             player.shuffleModeEnabled = isShuffleClicked.value
         }
@@ -96,19 +106,19 @@ class PlayerController (
         if (isRepeatClicked.value) {
             isRepeatClicked.value = false
             player.repeatMode = Player.REPEAT_MODE_OFF
-        }else{
+        } else {
             isRepeatClicked.value = true
-            player.repeatMode =  Player.REPEAT_MODE_ONE
+            player.repeatMode = Player.REPEAT_MODE_ONE
         }
     }
 
     fun seekForward() {
-       player.seekForward()
+        player.seekForward()
     }
+
     fun seekBack() {
         player.seekBack()
     }
-
 
 
     fun addPlaylist(itemList: List<SongModel>) {
@@ -126,17 +136,24 @@ class PlayerController (
     }
 
     fun nextItem() {
-        if (player.hasNextMediaItem())   player.seekToNextMediaItem()
+        if (player.hasNextMediaItem()) player.seekToNextMediaItem()
     }
 
-    fun goToSpecificItem(index:Int) {
-        player.seekTo(index,0L)
+    fun goToSpecificItem(index: Int) {
+        player.seekTo(index, 0L)
         player.play()
-        currentSong.value =  toMusicItem(player.currentMediaItem!!)
+        currentSong.value = toMusicItem(player.currentMediaItem!!)
+
     }
 
     fun previousItem() {
-        if (player.hasPreviousMediaItem())   player.seekToPreviousMediaItem()
+        if (player.hasPreviousMediaItem()) player.seekToPreviousMediaItem()
+
+    }
+
+
+    fun moveToSpecificPosition(position: Long) {
+        player.seekTo(position)
     }
 
     private fun getMetaDataFromItem(item: SongModel): MediaMetadata {
@@ -144,12 +161,11 @@ class PlayerController (
             .setTitle(item.songName)
             .setAlbumTitle(item.songAlbum)
             .setDisplayTitle(item.songName)
-            .setArtist( item.songArtist)
+            .setArtist(item.songArtist)
             .setAlbumArtist(item.songArtist)
             .setArtworkUri(item.songArt)
             .build()
     }
-
 
 
     fun updatePlayerSeekProgress(pos: Long) {
@@ -157,7 +173,6 @@ class PlayerController (
         val progress = pos.toFloat() / duration.toFloat()
         if (!progress.isNaN()) currentMediaPosition.value = progress
     }
-
 
 
     fun setupMediaNotification(context: Context) {
@@ -177,7 +192,7 @@ class PlayerController (
                     isPausePlayClicked.value = isPlaying
                     duration = mediaController.duration
                     if (duration == -9223372036854775807) duration = 0
-                    currentMediaDurationInMinutes.value =  duration
+                    currentMediaDurationInMinutes.value = duration
                     viewModelScope.launch {
                         while (isPausePlayClicked.value) {
                             currentSong.value = toMusicItem(player.currentMediaItem!!)
@@ -199,6 +214,7 @@ class PlayerController (
                             updatePlayerSeekProgress(newPosition.contentPositionMs)
                             player.seekTo(newPosition.contentPositionMs)
                         }
+
                         Player.DISCONTINUITY_REASON_AUTO_TRANSITION -> Unit
                         Player.DISCONTINUITY_REASON_INTERNAL -> Unit
                         Player.DISCONTINUITY_REASON_REMOVE -> Unit

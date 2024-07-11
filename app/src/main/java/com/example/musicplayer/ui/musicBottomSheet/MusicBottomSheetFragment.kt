@@ -1,19 +1,18 @@
 package com.example.musicplayer.ui.musicBottomSheet
 
-import android.app.Activity
-import android.app.Dialog
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SeekBar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModel
+import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.PlayedSongBottomSheetBinding
+import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
+import com.example.musicplayer.utilities.PlayerEvents
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,17 +21,8 @@ import dagger.hilt.android.AndroidEntryPoint
 class MusicBottomSheetFragment : BottomSheetDialogFragment() {
 
     val layoutFragmentId: Int = R.layout.played_song_bottom_sheet
-    val viewModel: ViewModel? = null
+    val viewModel: MusicPlayerViewModel by activityViewModels()
     private lateinit var binding: PlayedSongBottomSheetBinding
-
-//    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val dialog = super.onCreateDialog(savedInstanceState)
-//        dialog.setOnShowListener { dialogInterface ->
-//            val bottomSheetDialog = dialogInterface as BottomSheetDialog
-//            setupFullHeight(bottomSheetDialog)
-//        }
-//        return dialog
-//    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,8 +38,38 @@ class MusicBottomSheetFragment : BottomSheetDialogFragment() {
 
         val bottomSheet = view.parent as View
         bottomSheet.layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT
+
+
+        binding.viewModel = viewModel
+
+        binding.apply {
+            hideBottomSheetBotton.setOnClickListener { dismiss() }
+            playPauseImage.setOnClickListener { viewModel!!.onPlayerEvents(PlayerEvents.PausePlay) }
+            nextSongImage.setOnClickListener { viewModel!!.onPlayerEvents(PlayerEvents.Next) }
+            previousSongImage.setOnClickListener { viewModel!!.onPlayerEvents(PlayerEvents.Previous) }
+            forward.setOnClickListener { viewModel!!.onPlayerEvents(PlayerEvents.SeekForward) }
+            rewind.setOnClickListener { viewModel!!.onPlayerEvents(PlayerEvents.SeekBack) }
+            musicProgressSeekbar.setOnSeekBarChangeListener(object :
+                SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(
+                    seekBar: SeekBar?,
+                    progress: Int,
+                    fromUser: Boolean
+                ) {
+                    if(fromUser)  viewModel!!.onPlayerEvents(PlayerEvents.MoveToSpecificPosition(progress.toLong()))
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                    // Do something when the user starts touching the SeekBar
+                }
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                    // Do something when the user stops touching the SeekBar
+                }
+            })
+        }
     }
-//    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -59,34 +79,8 @@ class MusicBottomSheetFragment : BottomSheetDialogFragment() {
 
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-//            setVariable(BR.viewModel, viewModel)
             return root
         }
 
-//        val view: View =
-//            inflater.inflate(com.example.musicplayer.R.layout.played_song_bottom_sheet, container, false).also {
-//            }
-//
-//        return view
     }
-
-//    private fun setupFullHeight(bottomSheetDialog: BottomSheetDialog) {
-////        val bottomSheet =
-////            bottomSheetDialog.findViewById<View>(com.example.musicplayer.R.id.bottom_sheet) as FrameLayout?
-//        val behavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(binding.bottomSheet)
-//        val layoutParams = binding.bottomSheet.layoutParams
-//        val windowHeight = getWindowHeight()
-//        if (layoutParams != null) {
-//            layoutParams.height = windowHeight
-//        }
-//        binding.bottomSheet.layoutParams = layoutParams
-//        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-//    }
-//
-//    private fun getWindowHeight(): Int {
-//        // Calculate window height for fullscreen use
-//        val displayMetrics = DisplayMetrics()
-//        (requireContext() as Activity?)!!.windowManager.defaultDisplay.getMetrics(displayMetrics)
-//        return displayMetrics.heightPixels
-//    }
 }

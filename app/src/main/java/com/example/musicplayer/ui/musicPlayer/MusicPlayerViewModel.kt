@@ -10,16 +10,14 @@ import com.example.musicplayer.utilities.PlayerEvents
 import com.example.musicplayer.utilities.SongItemWithInitialValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class MusicPlayerViewModel @Inject constructor(
-     player: ExoPlayer,
-     @ApplicationContext context: Context
+    player: ExoPlayer,
+    @ApplicationContext context: Context
 ) : ViewModel() {
 
     private var _currentSong = MutableStateFlow(SongItemWithInitialValue)
@@ -41,7 +39,7 @@ class MusicPlayerViewModel @Inject constructor(
     val isShuffleClicked = _isShuffleClicked.asStateFlow()
 
     private var _isRepeatClick = MutableStateFlow(false)
-    val  isRepeatClick = _isRepeatClick.asStateFlow()
+    val isRepeatClick = _isRepeatClick.asStateFlow()
 
     private var _currentSongDurationInMinutes = MutableStateFlow(0L)
     val currentSongDurationInMinutes = _currentSongDurationInMinutes.asStateFlow()
@@ -50,10 +48,15 @@ class MusicPlayerViewModel @Inject constructor(
     val currentSongProgressInMinutes = _currentSongProgressInMinutes.asStateFlow()
 
 
+
+
+
     private val playerController =
-        PlayerController(player , _currentSong, _currentMediaPosition,
-                      _currentSongDurationInMinutes, _currentSongProgressInMinutes, _isPlayPlaying,
-                      _isPlayerBuffering, _isShuffleClicked, _isRepeatClick,  viewModelScope)
+        PlayerController(
+            player, _currentSong, _currentMediaPosition,
+            _currentSongDurationInMinutes, _currentSongProgressInMinutes, _isPlayPlaying,
+            _isPlayerBuffering, _isShuffleClicked, _isRepeatClick, viewModelScope
+        )
 
     init {
         player.addListener(playerController)
@@ -63,8 +66,8 @@ class MusicPlayerViewModel @Inject constructor(
 
     fun onPlayerEvents(event: PlayerEvents) {
         when (event) {
-            is PlayerEvents.PausePlay ->    playerController.pauseOrPlay()
-            is PlayerEvents.GoToSpecificItem ->  playerController.goToSpecificItem(event.index)
+            is PlayerEvents.PausePlay -> playerController.pauseOrPlay()
+            is PlayerEvents.GoToSpecificItem -> playerController.goToSpecificItem(event.index)
             is PlayerEvents.Next -> playerController.nextItem()
             is PlayerEvents.Previous -> playerController.previousItem()
             is PlayerEvents.Shuffle -> playerController.shuffleClick()
@@ -72,6 +75,7 @@ class MusicPlayerViewModel @Inject constructor(
             is PlayerEvents.AddPlaylist -> playerController.addPlaylist(event.songs)
             is PlayerEvents.SeekForward -> playerController.seekForward()
             is PlayerEvents.SeekBack -> playerController.seekBack()
+            is PlayerEvents.MoveToSpecificPosition -> playerController.moveToSpecificPosition(event.position)
             else -> {}
         }
     }

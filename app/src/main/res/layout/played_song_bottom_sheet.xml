@@ -3,15 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel" />
+    </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black">
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            xmlns:tools="http://schemas.android.com/tools"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/bottom_sheet"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -32,7 +37,7 @@
                 app:tint="@color/white" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/hide_bottom_sheet_botton"
                 android:layout_width="@dimen/_36sdp"
                 android:layout_height="@dimen/_12sdp"
                 android:alpha="0.7"
@@ -52,14 +57,14 @@
                 android:layout_margin="16dp"
                 android:ellipsize="end"
                 android:lines="1"
+                android:text="@{viewModel.currentSongFlow.songName}"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="hello ahmed samir mohamed " />
+                app:layout_constraintTop_toBottomOf="@+id/hide_bottom_sheet_botton"
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/songArtistTv"
@@ -70,14 +75,14 @@
                 android:alpha="0.5"
                 android:ellipsize="end"
                 android:lines="1"
+                android:text="@{viewModel.currentSongFlow.songArtist}"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/songNameTv"
-                app:layout_constraintVertical_bias="0.0"
-                tools:text="hello ahmed samir mohamed " />
+                app:layout_constraintVertical_bias="0.0" />
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageView3"
@@ -105,7 +110,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                app:layout_constraintVertical_bias="0.0" />
+                app:layout_constraintVertical_bias="0.0"
+                app:setCurrentProgressForSeekBar="@{viewModel.currentSongProgressInMinutes}"
+                app:setMaxProgressForSeekBar="@{viewModel.currentSongDurationInMinutes}" />
 
             <TextView
                 android:id="@+id/current_song_progress_tv"
@@ -113,11 +120,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:alpha="0.6"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@+id/music_progress_seekbar"
                 app:layout_constraintTop_toBottomOf="@+id/music_progress_seekbar"
                 app:layout_constraintVertical_bias="0.0"
-                tools:text="04:41" />
+                app:setTimeMinutes="@{viewModel.currentSongProgressInMinutes}" />
 
             <TextView
                 android:id="@+id/full_song_length_tv"
@@ -125,35 +133,39 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:alpha="0.6"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="@+id/music_progress_seekbar"
                 app:layout_constraintTop_toBottomOf="@+id/music_progress_seekbar"
                 app:layout_constraintVertical_bias="0.0"
-                tools:text="04:41" />
+                app:setTimeMinutes="@{viewModel.currentSongDurationInMinutes}" />
 
             <ImageView
                 android:id="@+id/playe_mode_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginStart="24dp"
                 android:src="@drawable/loop_list"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/current_song_progress_tv"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/current_song_progress_tv"
-                app:layout_constraintTop_toBottomOf="@+id/current_song_progress_tv"
-                app:layout_constraintVertical_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="@+id/love_song_image"
+                app:layout_constraintEnd_toStartOf="@+id/love_song_image"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/love_song_image"
+                app:layout_constraintVertical_bias="0.5"
                 app:tint="@color/white" />
 
             <ImageView
                 android:id="@+id/love_song_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="136dp"
+                android:layout_marginTop="@dimen/_36sdp"
                 android:src="@drawable/heart"
-                app:layout_constraintBottom_toBottomOf="@+id/playe_mode_image"
-                app:layout_constraintStart_toEndOf="@+id/playe_mode_image"
-                app:layout_constraintTop_toTopOf="@+id/playe_mode_image"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/music_progress_seekbar"
                 app:layout_constraintVertical_bias="0.0"
                 app:tint="@color/white" />
 
@@ -162,13 +174,14 @@
                 android:id="@+id/list_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:alpha="0.5"
+                android:layout_marginEnd="24dp"
                 android:src="@drawable/list"
-                app:layout_constraintEnd_toEndOf="@+id/full_song_length_tv"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/full_song_length_tv"
-                app:layout_constraintTop_toBottomOf="@+id/full_song_length_tv"
+                app:layout_constraintBottom_toBottomOf="@+id/love_song_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1"
+                app:layout_constraintStart_toEndOf="@+id/love_song_image"
+                app:layout_constraintTop_toTopOf="@+id/love_song_image"
+                app:layout_constraintVertical_bias="0.5"
                 app:tint="@color/white" />
 
             <ImageView
@@ -190,16 +203,18 @@
                 android:id="@+id/play_pause_image"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:layout_marginTop="@dimen/_24sdp"
+                android:layout_marginTop="@dimen/_36sdp"
                 android:background="@drawable/circule_background"
                 android:scaleType="center"
                 android:src="@drawable/play_svgrepo_com"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/love_song_image"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/love_song_image"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/love_song_image"
-                app:layout_constraintVertical_bias="0"
+                app:layout_constraintVertical_bias="0.0"
+                app:setImageIsLoading="@{viewModel.isPlayerBuffering()}"
+                app:setImagePlayOrStop="@{viewModel.isPlayPlaying()}"
                 app:tint="@color/black" />
 
             <ImageView
