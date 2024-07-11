@@ -10,6 +10,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.media3.session.MediaController
 import androidx.media3.session.SessionToken
 import com.example.musicplayer.data.model.SongModel
+import com.example.musicplayer.utilities.LAST_PLAYED_SONG
 import com.example.musicplayer.utilities.toMusicItem
 import com.google.common.util.concurrent.ListenableFuture
 import com.google.common.util.concurrent.MoreExecutors
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PlayerController(
+class PlayerController @Inject constructor(
     private val player: ExoPlayer,
     private var currentSong: MutableStateFlow<SongModel>,
     private var currentMediaPosition: MutableStateFlow<Float>,
@@ -47,6 +48,7 @@ class PlayerController(
 
         if (mediaItem != null) {
             currentSong.value = toMusicItem(mediaItem)
+            saveFloatValue(player.currentMediaItemIndex.toFloat())
         }
 
     }
@@ -90,6 +92,7 @@ class PlayerController(
             player.play()
         }
         currentSong.value = toMusicItem(player.currentMediaItem!!)
+        saveFloatValue(player.currentMediaItemIndex.toFloat())
     }
 
     fun shuffleClick() {
@@ -143,12 +146,12 @@ class PlayerController(
         player.seekTo(index, 0L)
         player.play()
         currentSong.value = toMusicItem(player.currentMediaItem!!)
+        saveFloatValue(player.currentMediaItemIndex.toFloat())
 
     }
 
     fun previousItem() {
         if (player.hasPreviousMediaItem()) player.seekToPreviousMediaItem()
-
     }
 
 
@@ -188,6 +191,7 @@ class PlayerController(
                     super.onIsPlayingChanged(isPlaying)
 
                     currentSong.value = toMusicItem(player.currentMediaItem!!)
+                    saveFloatValue(player.currentMediaItemIndex.toFloat())
 
                     isPausePlayClicked.value = isPlaying
                     duration = mediaController.duration
@@ -196,6 +200,7 @@ class PlayerController(
                     viewModelScope.launch {
                         while (isPausePlayClicked.value) {
                             currentSong.value = toMusicItem(player.currentMediaItem!!)
+                            saveFloatValue(player.currentMediaItemIndex.toFloat())
                             updatePlayerSeekProgress(player.currentPosition)
                             delay(1000)
                         }
@@ -226,5 +231,9 @@ class PlayerController(
         }, MoreExecutors.directExecutor())
     }
 
-
+    private fun saveFloatValue( value: Float) {
+        val editor = sharedPreferences.edit()
+        editor.putFloat(LAST_PLAYED_SONG, value)
+        editor.apply()
+    }
 }

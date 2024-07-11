@@ -50,7 +50,8 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioList.collect {
-                if (it is UiState.Success) {
+                if (it is UiState.Success && it.data.isNotEmpty()) {
+
                     songsAdapter.setData((it.data).sortedByDescending { it.songDateAdded })
                     musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(it.data.sortedByDescending { it.songDateAdded }))
 
