@@ -87,7 +87,7 @@ class ArtistViewModel @Inject constructor(
                         songAlbum,
                         songDateAdded,
                         songMimeType.toString(),
-                        songArt
+                        songArt.toString()
                     )
                     if (!song.songPath.contains("opus") && !song.songName.contains("AUD")) {
                         if (!audioFilesGroupedByArtist.containsKey(songArtist)) {

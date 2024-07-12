@@ -3,6 +3,7 @@ package com.example.musicplayer.player.player
 import android.content.ComponentName
 import android.content.Context
 import android.content.SharedPreferences
+import android.net.Uri
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -20,7 +21,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PlayerController @Inject constructor(
+class PlayerController (
     private val player: ExoPlayer,
     private var currentSong: MutableStateFlow<SongModel>,
     private var currentMediaPosition: MutableStateFlow<Float>,
@@ -30,15 +31,14 @@ class PlayerController @Inject constructor(
     private var isPlayerBuffering: MutableStateFlow<Boolean>,
     private var isShuffleClicked: MutableStateFlow<Boolean>,
     private var isRepeatClicked: MutableStateFlow<Boolean>,
-    private val viewModelScope: CoroutineScope
+    private val viewModelScope: CoroutineScope ,
+    private var sharedPreferences: SharedPreferences
 ) : Player.Listener {
 
     var duration: Long = 0
 
     private lateinit var controller: ListenableFuture<MediaController>
 
-    @Inject
-    lateinit var sharedPreferences: SharedPreferences
 
 
 
@@ -166,7 +166,7 @@ class PlayerController @Inject constructor(
             .setDisplayTitle(item.songName)
             .setArtist(item.songArtist)
             .setAlbumArtist(item.songArtist)
-            .setArtworkUri(item.songArt)
+            .setArtworkUri(Uri.parse(item.songArt))
             .build()
     }
 

@@ -37,7 +37,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
 
         songsAdapter = SongsAdapter(mutableListOf(), this)
 
-        viewModel.fetchAudioFiles()
+        viewModel.fetchAllMusics()
 
 
         binding.songsRv.apply {

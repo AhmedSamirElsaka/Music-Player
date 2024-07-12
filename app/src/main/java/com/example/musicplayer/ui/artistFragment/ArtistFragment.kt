@@ -6,6 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
+import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.databinding.FragmentArtistBinding
 import com.example.musicplayer.ui.base.BaseFragment
@@ -47,7 +48,7 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(), OnArtistListener {
 
     }
 
-    override fun onArtistClick(artist: SongModel) {
-        TODO("Not yet implemented")
+    override fun onArtistClick(artist: ArtistModel) {
+
     }
 }

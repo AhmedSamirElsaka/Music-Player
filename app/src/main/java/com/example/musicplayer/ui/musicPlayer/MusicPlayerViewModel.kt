@@ -1,6 +1,7 @@
 package com.example.musicplayer.ui.musicPlayer
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MusicPlayerViewModel @Inject constructor(
     player: ExoPlayer,
-    @ApplicationContext context: Context
+    @ApplicationContext context: Context ,
+    private var  sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private var _currentSong = MutableStateFlow(SongItemWithInitialValue)
@@ -51,11 +53,12 @@ class MusicPlayerViewModel @Inject constructor(
 
 
 
+
     private val playerController =
         PlayerController(
             player, _currentSong, _currentMediaPosition,
             _currentSongDurationInMinutes, _currentSongProgressInMinutes, _isPlayPlaying,
-            _isPlayerBuffering, _isShuffleClicked, _isRepeatClick, viewModelScope
+            _isPlayerBuffering, _isShuffleClicked, _isRepeatClick, viewModelScope , sharedPreferences
         )
 
     init {

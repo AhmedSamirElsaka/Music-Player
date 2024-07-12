@@ -1,4 +1,5 @@
-package com.example.musicplayer.ui.albumFragment
+package com.example.musicplayer.data.source
+
 
 import android.content.ContentResolver
 import android.content.ContentUris
@@ -6,41 +7,64 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import androidx.lifecycle.viewModelScope
-import com.example.musicplayer.data.model.AlbumModel
 import com.example.musicplayer.data.model.SongModel
-import com.example.musicplayer.ui.base.BaseViewModel
+import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
-import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-@HiltViewModel
-class AlbumViewModel @Inject constructor(
-    @ApplicationContext private val appContext: Context,
-) : BaseViewModel() {
-    private var _albumList: MutableStateFlow<UiState<HashMap<String, AlbumModel>>> =
+class AlbumRepository @Inject constructor(
+    private val musicDao: MusicDao ,
+    private  var appContext: Context
+) {
+
+
+
+    private var _audioList: MutableStateFlow<UiState<List<SongModel>>> =
         MutableStateFlow(UiState.Loading)
 
-    val albumList = _albumList.asStateFlow()
 
-    private var _albumArts: MutableStateFlow<UiState<HashMap<String, String>>> =
-        MutableStateFlow(UiState.Loading)
+    // caching
+    fun getMusics(): Flow<UiState<List<SongModel>>> {
+        return flow {
+            emit(UiState.Loading)
+            var musics: UiState<List<SongModel>>
+            val cachedMusic = musicDao.getAllMusic()
+            if (cachedMusic.isNotEmpty()) {
+                emit(UiState.Success(cachedMusic))
+            }
+            try {
+                fetchAudioFiles()
+                coroutineScope {
+                    _audioList.collect {
+                        if (it is UiState.Success && it.data.isNotEmpty()) {
+                            musicDao.insertAllMusic(it.data)
+                            emit(it)
+                        }
+                    }
+                }
 
-    val albumArts = _albumArts.asStateFlow()
+            } catch (e: Exception) {
+                emit(UiState.Error("Error fetching Musics"))
+            }
 
+        }.flowOn(Dispatchers.IO)
+    }
 
-    fun loadAlbumsFiles() {
-        val albumFiles = hashMapOf<String, AlbumModel>()
+    private fun fetchAudioFiles() {
+        val files = mutableListOf<SongModel>()
 
-        viewModelScope.launch {
-            _albumList.value = UiState.Loading
+        CoroutineScope(Dispatchers.IO).launch {
+            _audioList.value = UiState.Loading
             val projection = arrayOf(
-                MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DATA,
@@ -48,8 +72,7 @@ class AlbumViewModel @Inject constructor(
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.DATE_ADDED,
-                MediaStore.Audio.Media.MIME_TYPE,
-                MediaStore.Audio.Media.ALBUM_ID,
+                MediaStore.Audio.Media.MIME_TYPE
             )
 
             // Specify the selection criteria
@@ -59,11 +82,10 @@ class AlbumViewModel @Inject constructor(
                         "${MediaStore.Audio.Media.MIME_TYPE} = 'audio/aac' OR " +   // AAC
                         "${MediaStore.Audio.Media.MIME_TYPE} = 'audio/ogg')"
             val selectionArgs = null
-            val sortOrder = MediaStore.Audio.Media.ALBUM + " DESC"
 
             val contentResolver: ContentResolver = appContext.contentResolver
             val cursor: Cursor? = contentResolver.query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, null
             )
 
             cursor?.use {
@@ -84,7 +106,6 @@ class AlbumViewModel @Inject constructor(
                     val songMimeType =
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE))
                     val songArt = getSongArtUri(songId.toLong())
-
                     val song = SongModel(
                         songName,
                         songPath,
@@ -93,39 +114,23 @@ class AlbumViewModel @Inject constructor(
                         songDuration,
                         songAlbum,
                         songDateAdded,
-                        songMimeType.toString() ,
+                        songMimeType.toString(),
                         songArt.toString()
                     )
-                    val albumId =
-                        cursor.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
-                    val album =
-                        cursor.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM))
-
                     if (!song.songPath.contains("opus") && !song.songName.contains("AUD")) {
-                        if (!albumFiles.containsKey(albumId)) {
-                            val albumArt = getAlbumArtUri(albumId.toLong())
-                            albumFiles[album] =
-                                AlbumModel(album, albumId, songArtist, albumArt.toString(), mutableListOf())
-                        }
-                        albumFiles[album]?.albumSongs?.add(song)
+                        files.add(song)
                     }
                 }
             }
-            _albumList.value = UiState.Success(albumFiles)
-        }
-    }
 
-    private fun getAlbumArtUri(albumId: Long): Uri? {
-        return Uri.parse("content://media/external/audio/albumart").buildUpon()
-            .appendPath(java.lang.Long.toString(albumId)).build()
+            _audioList.value = UiState.Success(files)
+
+        }
     }
 
     private fun getSongArtUri(songId: Long): Uri? {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/media"), songId)
     }
 }
-
-
-
 
 

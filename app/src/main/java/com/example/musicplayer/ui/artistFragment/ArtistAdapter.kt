@@ -50,6 +50,6 @@ class ArtistAdapter(
 }
 
 interface OnArtistListener {
-    fun onArtistClick(artist: SongModel)
+    fun onArtistClick(artist: ArtistModel)
 }
 

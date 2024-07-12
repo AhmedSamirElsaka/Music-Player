@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_8sdp"
             android:ellipsize="end"
-            android:foregroundTint="@color/main_color"
             android:lines="1"
             android:text="@{song.songName}"
             android:textAlignment="textStart"
