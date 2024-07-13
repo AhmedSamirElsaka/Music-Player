@@ -71,8 +71,10 @@ class MusicRepository @Inject constructor(
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.DATE_ADDED,
-                MediaStore.Audio.Media.MIME_TYPE
-            )
+                MediaStore.Audio.Media.MIME_TYPE ,
+                MediaStore.Audio.Media.ALBUM_ID,
+
+                )
 
             // Specify the selection criteria
             val selection =
@@ -104,7 +106,9 @@ class MusicRepository @Inject constructor(
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_ADDED))
                     val songMimeType =
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE))
-                    val songArt = getSongArtUri(songId.toLong())
+                    val albumId =
+                        cursor.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID))
+                    val songArt = getAlbumArtUri(albumId.toLong())
                     val song = SongModel(
                         songName,
                         songPath,
@@ -127,8 +131,9 @@ class MusicRepository @Inject constructor(
         }
     }
 
-    private fun getSongArtUri(songId: Long): Uri? {
-        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/media"), songId)
+    private fun getAlbumArtUri(albumId: Long): Uri? {
+        return Uri.parse("content://media/external/audio/albumart").buildUpon()
+            .appendPath(albumId.toString()).build()
     }
 }
 

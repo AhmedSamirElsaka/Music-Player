@@ -10,7 +10,6 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
-import com.example.musicplayer.utilities.LAST_PLAYED_SONG
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 

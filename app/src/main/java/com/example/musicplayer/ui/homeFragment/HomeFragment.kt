@@ -10,7 +10,6 @@ import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentHomeBinding
 import com.example.musicplayer.ui.base.BaseFragment
 import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
-import com.example.musicplayer.utilities.LAST_PLAYED_SONG
 import com.example.musicplayer.utilities.PlayerEvents
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint

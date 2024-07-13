@@ -2,6 +2,7 @@ package com.example.musicplayer.ui.songsFragment
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -9,7 +10,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.model.SongModel
-import com.example.musicplayer.data.source.MusicRepository
 import com.example.musicplayer.databinding.FragmentSongsBinding
 import com.example.musicplayer.ui.base.BaseFragment
 import com.example.musicplayer.ui.musicBottomSheet.MusicBottomSheetFragment
@@ -32,7 +32,6 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -58,7 +57,8 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
                     songsAdapter.setData((it.data).sortedByDescending { it.songDateAdded })
                     musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(it.data.sortedByDescending { it.songDateAdded }))
 
-                    lastPlayedSongPosition = getFloatValue(0F)
+                    lastPlayedSongPosition = getFloatValue()
+                    Log.i("hello", "onViewCreated: $lastPlayedSongPosition")
                     musicPlayerViewModel.onPlayerEvents(
                         PlayerEvents.GoToSpecificItem(
                             lastPlayedSongPosition.toInt()
@@ -74,6 +74,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
 
     override fun onSongClick(song: SongModel, position: Int) {
         musicPlayerViewModel.onPlayerEvents(PlayerEvents.GoToSpecificItem(position))
+        musicPlayerViewModel.onPlayerEvents(PlayerEvents.PausePlay)
         val musicBottomSheetFragment = MusicBottomSheetFragment()
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
 //        (parentFragment as HomeFragment).binding.currentPlayedSong = song
@@ -83,7 +84,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
         TODO("Not yet implemented")
     }
 
-    fun getFloatValue(defaultValue: Float): Float {
+    private fun getFloatValue(defaultValue: Float = 0F ): Float {
         return sharedPreferences.getFloat(LAST_PLAYED_SONG, defaultValue)
     }
 

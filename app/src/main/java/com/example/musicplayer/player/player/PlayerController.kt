@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
 import androidx.media3.common.Player
@@ -49,6 +50,7 @@ class PlayerController (
         if (mediaItem != null) {
             currentSong.value = toMusicItem(mediaItem)
             saveFloatValue(player.currentMediaItemIndex.toFloat())
+            Log.i("hello", "onMediaItemTransition: " + player.currentMediaItemIndex.toFloat() )
         }
 
     }
@@ -92,7 +94,7 @@ class PlayerController (
             player.play()
         }
         currentSong.value = toMusicItem(player.currentMediaItem!!)
-        saveFloatValue(player.currentMediaItemIndex.toFloat())
+//        saveFloatValue(player.currentMediaItemIndex.toFloat())
     }
 
     fun shuffleClick() {
@@ -144,10 +146,10 @@ class PlayerController (
 
     fun goToSpecificItem(index: Int) {
         player.seekTo(index, 0L)
-        player.play()
+//        player.play()
         currentSong.value = toMusicItem(player.currentMediaItem!!)
         saveFloatValue(player.currentMediaItemIndex.toFloat())
-
+        Log.i("hello", "goToSpecificItem: "  + player.currentMediaItemIndex.toFloat() )
     }
 
     fun previousItem() {
@@ -191,7 +193,7 @@ class PlayerController (
                     super.onIsPlayingChanged(isPlaying)
 
                     currentSong.value = toMusicItem(player.currentMediaItem!!)
-                    saveFloatValue(player.currentMediaItemIndex.toFloat())
+//                    saveFloatValue(player.currentMediaItemIndex.toFloat())
 
                     isPausePlayClicked.value = isPlaying
                     duration = mediaController.duration
@@ -200,7 +202,7 @@ class PlayerController (
                     viewModelScope.launch {
                         while (isPausePlayClicked.value) {
                             currentSong.value = toMusicItem(player.currentMediaItem!!)
-                            saveFloatValue(player.currentMediaItemIndex.toFloat())
+//                            saveFloatValue(player.currentMediaItemIndex.toFloat())
                             updatePlayerSeekProgress(player.currentPosition)
                             delay(1000)
                         }
@@ -236,4 +238,6 @@ class PlayerController (
         editor.putFloat(LAST_PLAYED_SONG, value)
         editor.apply()
     }
+
+
 }
