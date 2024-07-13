@@ -1,6 +1,7 @@
 package com.example.musicplayer.di
 
 import android.content.Context
+import com.example.musicplayer.data.source.AlbumRepository
 import com.example.musicplayer.data.source.ArtistRepository
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.data.source.MusicRepository
@@ -23,5 +24,10 @@ object RepoModule {
     @Provides
     fun provideArtistsRepo( musicDao: MusicDao , @ApplicationContext appContext: Context): ArtistRepository {
         return ArtistRepository(musicDao , appContext)
+    }
+
+    @Provides
+    fun provideAlbumsRepo( musicDao: MusicDao , @ApplicationContext appContext: Context): AlbumRepository {
+        return AlbumRepository(musicDao , appContext)
     }
 }

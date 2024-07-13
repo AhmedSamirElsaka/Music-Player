@@ -10,7 +10,6 @@ import android.provider.MediaStore
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -34,7 +33,7 @@ class MusicRepository @Inject constructor(
 
 
     // caching
-    fun getMusics(): Flow<UiState<List<SongModel>>> {
+    fun getAudios(): Flow<UiState<List<SongModel>>> {
         return flow {
             emit(UiState.Loading)
             val cachedMusic = musicDao.getAllMusic()
@@ -42,7 +41,7 @@ class MusicRepository @Inject constructor(
                 emit(UiState.Success(cachedMusic))
             }
             try {
-                fetchAudioFiles()
+                fetchAudioFilesFromDevice()
                 coroutineScope {
                     _audioList.collect {
                         if (it is UiState.Success && it.data.isNotEmpty()) {
@@ -59,7 +58,7 @@ class MusicRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    private fun fetchAudioFiles() {
+    private fun fetchAudioFilesFromDevice() {
         val files = mutableListOf<SongModel>()
 
         CoroutineScope(Dispatchers.IO).launch {

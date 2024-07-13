@@ -18,14 +18,12 @@ import kotlinx.coroutines.launch
 class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
     override val layoutFragmentId: Int = R.layout.fragment_album
     override val viewModel: AlbumViewModel by viewModels()
-    lateinit var albumAdapter: AlbumAdapter
+    private lateinit var albumAdapter: AlbumAdapter
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.loadAlbumsFiles()
-//        viewModel.getAlbumArts()
 
-//        var song1 = SongModel("rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg")
 
         albumAdapter = AlbumAdapter(mutableListOf(), this, requireContext())
 
@@ -39,18 +37,11 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.albumList.collect {
                 if (it is UiState.Success) {
-                    albumAdapter.setData((it.data.values.toList()).sortedBy { it.albumName })
+                    albumAdapter.setData((it.data).sortedBy { it.albumName })
                     "${it.data.size} songs".also { binding.albumsCountTv.text = it }
                 }
             }
         }
-//        viewLifecycleOwner.lifecycleScope.launch {
-//            viewModel.albumArts.collect {
-//                if (it is UiState.Success) {
-//                    Log.i("hello", it.data.toString())
-//                }
-//            }
-//        }
     }
 
     override fun onAlbumClick(artist: SongModel) {

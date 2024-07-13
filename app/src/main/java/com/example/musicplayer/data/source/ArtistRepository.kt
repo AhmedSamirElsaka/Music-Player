@@ -12,7 +12,6 @@ import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.coroutineScope
@@ -43,7 +42,7 @@ class ArtistRepository @Inject constructor(
                 emit(UiState.Success(cachedArtists))
             }
             try {
-                loadArtistsFiles()
+                fetchArtistsFromDevice()
                 coroutineScope {
                     _audioListGroupedByArtist.collect {
                         if (it is UiState.Success && it.data.isNotEmpty()) {
@@ -61,7 +60,7 @@ class ArtistRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    private fun loadArtistsFiles() {
+    private fun fetchArtistsFromDevice() {
 
         val audioFilesGroupedByArtistHashMap = hashMapOf<String, ArtistModel>()
         val audioFilesGroupedByArtistList = mutableListOf<ArtistModel>()
@@ -139,7 +138,6 @@ class ArtistRepository @Inject constructor(
             audioFilesGroupedByArtistHashMap.forEach { (t, u) ->
                 audioFilesGroupedByArtistList.add(u)
             }
-            audioFilesGroupedByArtistList.toSet()
 
             _audioListGroupedByArtist.value = UiState.Success(audioFilesGroupedByArtistList.toSet().toList())
 
