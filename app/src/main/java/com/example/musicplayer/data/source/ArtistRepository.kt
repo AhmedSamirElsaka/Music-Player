@@ -7,6 +7,8 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
+import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
@@ -23,31 +25,30 @@ import javax.inject.Inject
 
 
 class ArtistRepository @Inject constructor(
-    private val musicDao: MusicDao ,
-    private  var appContext: Context
+    private val musicDao: MusicDao,
+     private var appContext: Context
 ) {
-
-
-
-    private var _audioList: MutableStateFlow<UiState<List<SongModel>>> =
+    private var _audioListGroupedByArtist: MutableStateFlow<UiState<List<ArtistModel>>> =
         MutableStateFlow(UiState.Loading)
 
 
     // caching
-    fun getMusics(): Flow<UiState<List<SongModel>>> {
+    fun getArtists(): Flow<UiState<List<ArtistModel>>> {
+        Log.i("hello", "getArtists: ")
         return flow {
             emit(UiState.Loading)
-            var musics: UiState<List<SongModel>>
-            val cachedMusic = musicDao.getAllMusic()
-            if (cachedMusic.isNotEmpty()) {
-                emit(UiState.Success(cachedMusic))
+            val cachedArtists = musicDao.getAllArtists()
+            Log.i("hello", "getArtists: $cachedArtists")
+            if (cachedArtists.isNotEmpty()) {
+                emit(UiState.Success(cachedArtists))
             }
             try {
-                fetchAudioFiles()
+                loadArtistsFiles()
                 coroutineScope {
-                    _audioList.collect {
+                    _audioListGroupedByArtist.collect {
                         if (it is UiState.Success && it.data.isNotEmpty()) {
-                            musicDao.insertAllMusic(it.data)
+                            musicDao.insertAllArtists(it.data)
+                            Log.i("hello", "getArtists: $it")
                             emit(it)
                         }
                     }
@@ -60,12 +61,15 @@ class ArtistRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
-    private fun fetchAudioFiles() {
-        val files = mutableListOf<SongModel>()
+    private fun loadArtistsFiles() {
+
+        val audioFilesGroupedByArtistHashMap = hashMapOf<String, ArtistModel>()
+        val audioFilesGroupedByArtistList = mutableListOf<ArtistModel>()
 
         CoroutineScope(Dispatchers.IO).launch {
-            _audioList.value = UiState.Loading
+            _audioListGroupedByArtist.value = UiState.Loading
             val projection = arrayOf(
+                MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media._ID,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DATA,
@@ -83,10 +87,11 @@ class ArtistRepository @Inject constructor(
                         "${MediaStore.Audio.Media.MIME_TYPE} = 'audio/aac' OR " +   // AAC
                         "${MediaStore.Audio.Media.MIME_TYPE} = 'audio/ogg')"
             val selectionArgs = null
+            val sortOrder = MediaStore.Audio.Media.ARTIST + " DESC"
 
             val contentResolver: ContentResolver = appContext.contentResolver
             val cursor: Cursor? = contentResolver.query(
-                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, null
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, sortOrder
             )
 
             cursor?.use {
@@ -107,6 +112,7 @@ class ArtistRepository @Inject constructor(
                     val songMimeType =
                         it.getLong(it.getColumnIndexOrThrow(MediaStore.Audio.Media.MIME_TYPE))
                     val songArt = getSongArtUri(songId.toLong())
+
                     val song = SongModel(
                         songName,
                         songPath,
@@ -119,12 +125,23 @@ class ArtistRepository @Inject constructor(
                         songArt.toString()
                     )
                     if (!song.songPath.contains("opus") && !song.songName.contains("AUD")) {
-                        files.add(song)
+                        if (!audioFilesGroupedByArtistHashMap.containsKey(songArtist)) {
+                            audioFilesGroupedByArtistHashMap[songArtist] =
+                                ArtistModel(songArtist, mutableListOf())
+                        }
+                        audioFilesGroupedByArtistHashMap[songArtist]?.artistSongs?.add(song)
                     }
                 }
             }
 
-            _audioList.value = UiState.Success(files)
+            Log.i("hello", "getArtists: $audioFilesGroupedByArtistHashMap")
+
+            audioFilesGroupedByArtistHashMap.forEach { (t, u) ->
+                audioFilesGroupedByArtistList.add(u)
+            }
+            audioFilesGroupedByArtistList.toSet()
+
+            _audioListGroupedByArtist.value = UiState.Success(audioFilesGroupedByArtistList.toSet().toList())
 
         }
     }

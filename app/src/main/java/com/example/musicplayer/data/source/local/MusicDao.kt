@@ -21,17 +21,17 @@ interface MusicDao {
 
 
     @Query("SELECT * FROM ArtistModel")
-    suspend fun getAllArtists(): List<ArtistModel>
+     fun getAllArtists(): List<ArtistModel>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllArtists(musics: List<ArtistModel>)
+    suspend fun insertAllArtists(artists: List<ArtistModel>)
 
     @Query("SELECT * FROM AlbumModel")
     suspend fun getAllAlbums(): List<AlbumModel>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAllAlbums(musics: List<AlbumModel>)
+    suspend fun insertAllAlbums(albums: List<AlbumModel>)
 
 }

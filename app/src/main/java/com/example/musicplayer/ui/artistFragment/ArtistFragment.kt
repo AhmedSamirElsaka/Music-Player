@@ -25,7 +25,6 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(), OnArtistListener {
 
         viewModel.loadArtistsFiles()
 
-//        var song1 = SongModel("rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg", "rdgdrfg")
 
         artistAdapter = ArtistAdapter(mutableListOf(), this)
 
@@ -39,7 +38,7 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(), OnArtistListener {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioListGroupedByArtist.collect {
                 if (it is UiState.Success) {
-                    artistAdapter.setData((it.data.values.toList()).sortedBy { it.artistName })
+                    artistAdapter.setData((it.data).sortedBy { it.artistName })
                     "${it.data.size} songs".also { binding.artistsCountTv.text = it }
                 }
             }

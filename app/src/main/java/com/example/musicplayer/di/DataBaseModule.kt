@@ -21,6 +21,7 @@ object DataBaseModule {
         @ApplicationContext context: Context,
     ): MusicDataBase =
         Room.databaseBuilder(context, MusicDataBase::class.java, "MusicDataBase")
+            .fallbackToDestructiveMigration()
             .build()
 
     @Singleton

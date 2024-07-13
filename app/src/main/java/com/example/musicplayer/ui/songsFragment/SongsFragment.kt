@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.model.SongModel
+import com.example.musicplayer.data.source.MusicRepository
 import com.example.musicplayer.databinding.FragmentSongsBinding
 import com.example.musicplayer.ui.base.BaseFragment
 import com.example.musicplayer.ui.musicBottomSheet.MusicBottomSheetFragment
@@ -31,6 +32,8 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

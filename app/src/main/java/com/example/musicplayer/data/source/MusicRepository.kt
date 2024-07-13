@@ -24,7 +24,7 @@ import javax.inject.Inject
 
 class MusicRepository @Inject constructor(
     private val musicDao: MusicDao ,
-    private  var appContext: Context
+     private  var appContext: Context
 ) {
 
 
@@ -37,7 +37,6 @@ class MusicRepository @Inject constructor(
     fun getMusics(): Flow<UiState<List<SongModel>>> {
         return flow {
             emit(UiState.Loading)
-            var musics: UiState<List<SongModel>>
             val cachedMusic = musicDao.getAllMusic()
             if (cachedMusic.isNotEmpty()) {
                 emit(UiState.Success(cachedMusic))
