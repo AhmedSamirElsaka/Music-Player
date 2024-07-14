@@ -32,7 +32,8 @@ class ArtistAdapter(
     }
 
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
-        holder.binding.artistNameTv.text = list[position].artistName
+        holder.binding.artistName =  list[position].artistName
+        holder.binding.listener = listener
 //        holder.binding.song = list[position]
 ////        Log.i("hello", "onBindViewHolder")
 //        holder.binding.playedSongNameTv.text = list[position].songName
@@ -50,6 +51,6 @@ class ArtistAdapter(
 }
 
 interface OnArtistListener {
-    fun onArtistClick(artist: ArtistModel)
+    fun onArtistClick(artistName: String)
 }
 

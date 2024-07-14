@@ -9,7 +9,29 @@
         tools:layout="@layout/fragment_home"
         android:name="com.example.musicplayer.ui.homeFragment.HomeFragment"
         android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_artistsAndAlbumsSongFragment"
+            app:destination="@id/artistsAndAlbumsSongFragment" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/artistsAndAlbumsSongFragment"
+        tools:layout="@layout/fragment_artists_and_albums_song"
+        android:name="com.example.musicplayer.ui.artistsAndAlbumsSongs.ArtistsAndAlbumsSongsFragment"
+        android:label="ArtistsAndAlbumsSongFragment" >
+        <argument
+            android:name="isFromAlbumsFragment"
+            app:argType="boolean"
+            android:defaultValue="false" />
+
+        <argument
+            android:name="albumId"
+            app:argType="string"
+            android:defaultValue="&quot;&quot;" />
+        <argument
+            android:name="artistId"
+            app:argType="string"
+            android:defaultValue="&quot;&quot;" />
     </fragment>
 
 

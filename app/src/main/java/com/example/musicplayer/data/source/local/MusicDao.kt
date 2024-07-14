@@ -21,14 +21,21 @@ interface MusicDao {
 
 
     @Query("SELECT * FROM ArtistModel")
-     fun getAllArtists(): List<ArtistModel>
+    fun getAllArtists(): List<ArtistModel>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllArtists(artists: List<ArtistModel>)
 
+    @Query("SELECT * FROM ArtistModel WHERE artistName = :artistName")
+    fun getArtistByName(artistName: String): ArtistModel
+
+
     @Query("SELECT * FROM AlbumModel")
     suspend fun getAllAlbums(): List<AlbumModel>
+
+    @Query("SELECT * FROM AlbumModel WHERE albumID = :albumId")
+    fun getAlbumById(albumId: String): AlbumModel
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

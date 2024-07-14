@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.model.ArtistModel
-import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.databinding.FragmentArtistBinding
 import com.example.musicplayer.ui.base.BaseFragment
+import com.example.musicplayer.ui.homeFragment.HomeFragmentDirections
 import com.example.musicplayer.utilities.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -47,7 +48,8 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(), OnArtistListener {
 
     }
 
-    override fun onArtistClick(artist: ArtistModel) {
-
+    override fun onArtistClick(artistName: String) {
+        val action = HomeFragmentDirections.actionHomeFragmentToArtistsAndAlbumsSongFragment(false , "" , artistName)
+        findNavController().navigate(action)
     }
 }

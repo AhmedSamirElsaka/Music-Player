@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class PlayerController (
+class PlayerController(
     private val player: ExoPlayer,
     private var currentSong: MutableStateFlow<SongModel>,
     private var currentMediaPosition: MutableStateFlow<Float>,
@@ -32,15 +32,13 @@ class PlayerController (
     private var isPlayerBuffering: MutableStateFlow<Boolean>,
     private var isShuffleClicked: MutableStateFlow<Boolean>,
     private var isRepeatClicked: MutableStateFlow<Boolean>,
-    private val viewModelScope: CoroutineScope ,
+    private val viewModelScope: CoroutineScope,
     private var sharedPreferences: SharedPreferences
 ) : Player.Listener {
 
     var duration: Long = 0
 
     private lateinit var controller: ListenableFuture<MediaController>
-
-
 
 
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
@@ -50,7 +48,7 @@ class PlayerController (
         if (mediaItem != null) {
             currentSong.value = toMusicItem(mediaItem)
             saveFloatValue(player.currentMediaItemIndex.toFloat())
-            Log.i("hello", "onMediaItemTransition: " + player.currentMediaItemIndex.toFloat() )
+            Log.i("hello", "onMediaItemTransition: " + player.currentMediaItemIndex.toFloat())
         }
 
     }
@@ -67,6 +65,7 @@ class PlayerController (
             Player.STATE_ENDED -> {
                 if (player.hasNextMediaItem()) {
                     if (player.hasNextMediaItem()) nextItem()
+                    saveFloatValue(player.currentMediaItemIndex.toFloat())
                 }
             }
 
@@ -94,7 +93,6 @@ class PlayerController (
             player.play()
         }
         currentSong.value = toMusicItem(player.currentMediaItem!!)
-//        saveFloatValue(player.currentMediaItemIndex.toFloat())
     }
 
     fun shuffleClick() {
@@ -148,8 +146,9 @@ class PlayerController (
         player.seekTo(index, 0L)
 //        player.play()
         currentSong.value = toMusicItem(player.currentMediaItem!!)
+
         saveFloatValue(player.currentMediaItemIndex.toFloat())
-        Log.i("hello", "goToSpecificItem: "  + player.currentMediaItemIndex.toFloat() )
+        Log.i("hello", "goToSpecificItem: " + player.currentMediaItemIndex.toFloat())
     }
 
     fun previousItem() {
@@ -233,7 +232,7 @@ class PlayerController (
         }, MoreExecutors.directExecutor())
     }
 
-    private fun saveFloatValue( value: Float) {
+    private fun saveFloatValue(value: Float) {
         val editor = sharedPreferences.edit()
         editor.putFloat(LAST_PLAYED_SONG, value)
         editor.apply()

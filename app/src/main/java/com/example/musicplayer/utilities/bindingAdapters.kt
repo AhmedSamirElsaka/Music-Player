@@ -73,3 +73,7 @@ fun setImageIsLoading(imageView: ImageView , isByffering :Boolean) {
 fun setTimeMinutes(textView: TextView, progress : Long) {
     textView.text = convertLongDurationToTime(progress)
 }
+@BindingAdapter("app:showVisibleWhenTrue")
+fun <T> showVisibleWhenTrue(view: View, isVisible:Boolean) {
+    view.isVisible = isVisible
+}

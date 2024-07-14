@@ -45,18 +45,11 @@ class AlbumAdapter(
         val item = list[position]
         holder.binding.albumNameTv.text = item.albumName
         holder.binding.artistNameTv.text = item.albumCreator
-
-        Log.i("hello",item.albumArt.toString() )
+        holder.binding.albumId = item.albumID
+        holder.binding.listener = listener
         if (item.albumArt != null) {
             Glide.with(context).load(item.albumArt).into(holder.binding.albumImage);
         }
-//        holder.binding.artistNameTv.text = list[position].artistName
-//        holder.binding.song = list[position]
-////        Log.i("hello", "onBindViewHolder")
-//        holder.binding.playedSongNameTv.text = list[position].songName
-////        Log.i("hello",  list[position].songName)
-//        holder.binding.nonPlayedSongNameTv.text = list[position].songName
-//        holder.binding.listener = listener
     }
 
     override fun getItemCount(): Int = list.size
@@ -68,6 +61,6 @@ class AlbumAdapter(
 }
 
 interface OnAlbumListener {
-    fun onAlbumClick(artist: SongModel)
+    fun onAlbumClick(albumId: String)
 }
 

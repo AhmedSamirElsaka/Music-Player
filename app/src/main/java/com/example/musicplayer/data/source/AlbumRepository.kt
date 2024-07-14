@@ -36,7 +36,7 @@ class AlbumRepository @Inject constructor(
 
     // caching
     fun getAlbums(): Flow<UiState<List<AlbumModel>>> {
-        Log.i("hello", "getArtists: ")
+//        Log.i("hello", "getArtists: ")
         return flow {
             emit(UiState.Loading)
             val cachedAlbums = musicDao.getAllAlbums()

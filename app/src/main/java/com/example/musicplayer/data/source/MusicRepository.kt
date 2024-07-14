@@ -2,11 +2,12 @@ package com.example.musicplayer.data.source
 
 
 import android.content.ContentResolver
-import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import com.example.musicplayer.data.model.AlbumModel
+import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
@@ -22,10 +23,9 @@ import javax.inject.Inject
 
 
 class MusicRepository @Inject constructor(
-    private val musicDao: MusicDao ,
-     private  var appContext: Context
+    private val musicDao: MusicDao,
+    private var appContext: Context
 ) {
-
 
 
     private var _audioList: MutableStateFlow<UiState<List<SongModel>>> =
@@ -71,7 +71,7 @@ class MusicRepository @Inject constructor(
                 MediaStore.Audio.Media.DURATION,
                 MediaStore.Audio.Media.ALBUM,
                 MediaStore.Audio.Media.DATE_ADDED,
-                MediaStore.Audio.Media.MIME_TYPE ,
+                MediaStore.Audio.Media.MIME_TYPE,
                 MediaStore.Audio.Media.ALBUM_ID,
 
                 )
@@ -134,6 +134,24 @@ class MusicRepository @Inject constructor(
     private fun getAlbumArtUri(albumId: Long): Uri? {
         return Uri.parse("content://media/external/audio/albumart").buildUpon()
             .appendPath(albumId.toString()).build()
+    }
+
+
+    fun getSpecifiArtistSongs(artistName: String): Flow<UiState<ArtistModel>> {
+        return flow {
+            emit(UiState.Loading)
+            val artist = musicDao.getArtistByName(artistName)
+            emit(UiState.Success(artist))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getSpecificAlbumSongs(albumId: String): Flow<UiState<AlbumModel>> {
+        return flow {
+
+            emit(UiState.Loading)
+            val album = musicDao.getAlbumById(albumId)
+            emit(UiState.Success(album))
+        }.flowOn(Dispatchers.IO)
     }
 }
 

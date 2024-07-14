@@ -33,11 +33,11 @@ class ArtistRepository @Inject constructor(
 
     // caching
     fun getArtists(): Flow<UiState<List<ArtistModel>>> {
-        Log.i("hello", "getArtists: ")
+//        Log.i("hello", "getArtists: ")
         return flow {
             emit(UiState.Loading)
             val cachedArtists = musicDao.getAllArtists()
-            Log.i("hello", "getArtists: $cachedArtists")
+//            Log.i("hello", "getArtists: $cachedArtists")
             if (cachedArtists.isNotEmpty()) {
                 emit(UiState.Success(cachedArtists))
             }
