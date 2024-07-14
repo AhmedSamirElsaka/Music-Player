@@ -20,7 +20,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MusicBottomSheetFragment : BottomSheetDialogFragment() {
 
-    val layoutFragmentId: Int = R.layout.played_song_bottom_sheet
+    private val layoutFragmentId: Int = R.layout.played_song_bottom_sheet
     val viewModel: MusicPlayerViewModel by activityViewModels()
     private lateinit var binding: PlayedSongBottomSheetBinding
 

@@ -28,7 +28,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
     override val viewModel: SongViewModel by viewModels()
     private lateinit var songsAdapter: SongsAdapter
     private val musicPlayerViewModel: MusicPlayerViewModel by activityViewModels()
-    private var lastPlayedSongPosition = 0F
+//    private var lastPlayedSongPosition = 0F
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -55,15 +55,15 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
                 if (it is UiState.Success && it.data.isNotEmpty()) {
 
                     songsAdapter.setData((it.data).sortedByDescending { it.songDateAdded })
+                    musicPlayerViewModel.onPlayerEvents(PlayerEvents.ClearMediaItems)
                     musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(it.data.sortedByDescending { it.songDateAdded }))
-
-                    lastPlayedSongPosition = getFloatValue()
-                    Log.i("hello", "onViewCreated: $lastPlayedSongPosition")
-                    musicPlayerViewModel.onPlayerEvents(
-                        PlayerEvents.GoToSpecificItem(
-                            lastPlayedSongPosition.toInt()
-                        )
-                    )
+//                    lastPlayedSongPosition = getFloatValue()
+//                    Log.i("hello", "onViewCreated: $lastPlayedSongPosition")
+//                    musicPlayerViewModel.onPlayerEvents(
+//                        PlayerEvents.GoToSpecificItem(
+//                            lastPlayedSongPosition.toInt()
+//                        )
+//                    )
 //                    musicPlayerViewModel.onPlayerEvents(PlayerEvents.PausePlay)
                 }
             }
@@ -74,7 +74,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
 
     override fun onSongClick(song: SongModel, position: Int) {
         musicPlayerViewModel.onPlayerEvents(PlayerEvents.GoToSpecificItem(position))
-        musicPlayerViewModel.onPlayerEvents(PlayerEvents.PausePlay)
+//        musicPlayerViewModel.onPlayerEvents(PlayerEvents.PausePlay)
         val musicBottomSheetFragment = MusicBottomSheetFragment()
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
 //        (parentFragment as HomeFragment).binding.currentPlayedSong = song

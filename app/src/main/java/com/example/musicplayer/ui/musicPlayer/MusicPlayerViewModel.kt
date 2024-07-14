@@ -79,6 +79,7 @@ class MusicPlayerViewModel @Inject constructor(
             is PlayerEvents.SeekForward -> playerController.seekForward()
             is PlayerEvents.SeekBack -> playerController.seekBack()
             is PlayerEvents.MoveToSpecificPosition -> playerController.moveToSpecificPosition(event.position)
+            is PlayerEvents.ClearMediaItems -> playerController.clearPlayer()
             else -> {}
         }
     }

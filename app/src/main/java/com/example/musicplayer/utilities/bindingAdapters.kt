@@ -33,7 +33,7 @@ fun loadImage(imageView: ShapeableImageView, source: String?) {
             .into(imageView)
 //            Log.i("hello", "loadImage: $source")
     } else {
-        imageView.setImageResource(R.drawable.storytel4997)
+//        imageView.setImageResource(R.drawable.storytel4997)
 //            Log.i("hello", "loadImage: not")
     }
 }

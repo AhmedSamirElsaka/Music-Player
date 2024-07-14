@@ -34,12 +34,6 @@ class ArtistAdapter(
     override fun onBindViewHolder(holder: ArtistViewHolder, position: Int) {
         holder.binding.artistName =  list[position].artistName
         holder.binding.listener = listener
-//        holder.binding.song = list[position]
-////        Log.i("hello", "onBindViewHolder")
-//        holder.binding.playedSongNameTv.text = list[position].songName
-////        Log.i("hello",  list[position].songName)
-//        holder.binding.nonPlayedSongNameTv.text = list[position].songName
-//        holder.binding.listener = listener
     }
 
     override fun getItemCount(): Int = list.size

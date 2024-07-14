@@ -15,7 +15,6 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    val viewModel: MusicPlayerViewModel by viewModels()
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences

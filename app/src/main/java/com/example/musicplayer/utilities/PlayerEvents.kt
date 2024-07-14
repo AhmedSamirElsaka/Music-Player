@@ -18,4 +18,5 @@ sealed class PlayerEvents {
 
     data class  MoveToSpecificPosition(val position:Long) : PlayerEvents()
 
+    object ClearMediaItems:PlayerEvents()
 }

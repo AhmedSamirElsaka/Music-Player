@@ -102,7 +102,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_8sdp"
             android:alpha="0.3"
-            android:text="@{albumModel.albumSongs.size()}"
             android:textColor="@color/white"
             android:textSize="@dimen/_16ssp"
             app:layout_constraintBottom_toBottomOf="@+id/playAllTv"

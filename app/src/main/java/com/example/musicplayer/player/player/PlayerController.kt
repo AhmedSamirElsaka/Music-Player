@@ -124,6 +124,11 @@ class PlayerController(
     }
 
 
+    fun clearPlayer(){
+        player.stop()
+        player.clearMediaItems()
+    }
+
     fun addPlaylist(itemList: List<SongModel>) {
 
         for (item in itemList) {
@@ -136,6 +141,7 @@ class PlayerController(
             player.addMediaItem(mediaItem)
         }
         player.prepare()
+        player.pause()
     }
 
     fun nextItem() {
@@ -144,7 +150,7 @@ class PlayerController(
 
     fun goToSpecificItem(index: Int) {
         player.seekTo(index, 0L)
-//        player.play()
+        player.play()
         currentSong.value = toMusicItem(player.currentMediaItem!!)
 
         saveFloatValue(player.currentMediaItemIndex.toFloat())
