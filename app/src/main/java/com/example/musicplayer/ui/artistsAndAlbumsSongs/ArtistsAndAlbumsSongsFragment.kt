@@ -47,8 +47,6 @@ class ArtistsAndAlbumsSongsFragment : BaseFragment<FragmentArtistsAndAlbumsSongB
                     if (it is UiState.Success && it.data.albumSongs.isNotEmpty()) {
                         val songs = it.data.albumSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
-                        musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(songs.sortedByDescending { it.songDateAdded }))
-
                     }
                 }
             }
@@ -59,8 +57,6 @@ class ArtistsAndAlbumsSongsFragment : BaseFragment<FragmentArtistsAndAlbumsSongB
                     if (it is UiState.Success && it.data.artistSongs.isNotEmpty()) {
                         val songs = it.data.artistSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
-                        musicPlayerViewModel.onPlayerEvents(PlayerEvents.ClearMediaItems)
-                        musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(songs.sortedByDescending { it.songDateAdded }))
                     }
                 }
             }

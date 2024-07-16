@@ -54,6 +54,7 @@ class PlayerController(
 
     // Function to find the index of the track by ID or name
     fun findTrackIndexById(trackId: String): Int {
+
         for (i in 0 until player.mediaItemCount) {
             val mediaItem = player.getMediaItemAt(i)
             if (mediaItem.mediaId.equals(trackId)) {
@@ -140,20 +141,36 @@ class PlayerController(
         player.clearMediaItems()
     }
 
-    fun addPlaylist(itemList: List<SongModel>) {
+    fun addPlaylist(itemList: List<SongModel>, updatePlaylistRequired: Boolean) {
+        if (updatePlaylistRequired) {
+            for (item in itemList) {
+                val metadata = getMetaDataFromItem(item)
+                val mediaItem = MediaItem.Builder().apply {
+                    setUri(item.songPath)
+                    setMediaId(item.songId)
+                    setMediaMetadata(metadata)
 
-        for (item in itemList) {
-            val metadata = getMetaDataFromItem(item)
-            val mediaItem = MediaItem.Builder().apply {
-                setUri(item.songPath)
-                setMediaId(item.songId)
-                setMediaMetadata(metadata)
+                }.build()
+                player.addMediaItem(mediaItem)
+            }
+            player.prepare()
+            player.pause()
+        } else {
+            if (player.mediaItemCount <= 0) {
+                for (item in itemList) {
+                    val metadata = getMetaDataFromItem(item)
+                    val mediaItem = MediaItem.Builder().apply {
+                        setUri(item.songPath)
+                        setMediaId(item.songId)
+                        setMediaMetadata(metadata)
 
-            }.build()
-            player.addMediaItem(mediaItem)
+                    }.build()
+                    player.addMediaItem(mediaItem)
+                }
+                player.prepare()
+                player.pause()
+            }
         }
-        player.prepare()
-        player.pause()
     }
 
     fun nextItem() {

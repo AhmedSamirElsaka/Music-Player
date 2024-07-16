@@ -56,7 +56,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
 
                     songsAdapter.setData((it.data).sortedByDescending { it.songDateAdded })
 //                    musicPlayerViewModel.onPlayerEvents(PlayerEvents.ClearMediaItems)
-                    musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(it.data.sortedByDescending { it.songDateAdded }))
+                    musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(it.data.sortedByDescending { it.songDateAdded } , false))
 //                    lastPlayedSongPosition = getFloatValue()
 //                    Log.i("hello", "onViewCreated: $lastPlayedSongPosition")
 //                    musicPlayerViewModel.onPlayerEvents(

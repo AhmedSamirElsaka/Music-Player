@@ -71,7 +71,7 @@ class MusicPlayerViewModel @Inject constructor(
             is PlayerEvents.Previous -> playerController.previousItem()
             is PlayerEvents.Shuffle -> playerController.shuffleClick()
             is PlayerEvents.Repeat -> playerController.repeatClick()
-            is PlayerEvents.AddPlaylist -> playerController.addPlaylist(event.songs)
+            is PlayerEvents.AddPlaylist -> playerController.addPlaylist(event.songs , event.isUpdatePlaylistRequired)
             is PlayerEvents.SeekForward -> playerController.seekForward()
             is PlayerEvents.SeekBack -> playerController.seekBack()
             is PlayerEvents.MoveToSpecificPosition -> playerController.moveToSpecificPosition(event.position)
