@@ -19,4 +19,6 @@ sealed class PlayerEvents {
     data class  MoveToSpecificPosition(val position:Long) : PlayerEvents()
 
     object ClearMediaItems:PlayerEvents()
+
+    data class GetThePositionOfSpecificSongInsideThePlaylist(val id:String) : PlayerEvents()
 }

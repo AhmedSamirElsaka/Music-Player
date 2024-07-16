@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import com.example.musicplayer.data.model.AlbumModel
 import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.SongModel
@@ -37,6 +38,8 @@ class MusicRepository @Inject constructor(
         return flow {
             emit(UiState.Loading)
             val cachedMusic = musicDao.getAllMusic()
+
+            Log.i("hello", "getAudios: " + cachedMusic)
             if (cachedMusic.isNotEmpty()) {
                 emit(UiState.Success(cachedMusic))
             }
@@ -88,9 +91,9 @@ class MusicRepository @Inject constructor(
             val cursor: Cursor? = contentResolver.query(
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, projection, selection, null, null
             )
-
             cursor?.use {
                 while (it.moveToNext()) {
+//                    Log.i("hello", "fetchAudioFilesFromDevice: " + it.position)
                     val songPath =
                         it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media.DATA))
                     val songId = it.getString(it.getColumnIndexOrThrow(MediaStore.Audio.Media._ID))
@@ -137,7 +140,7 @@ class MusicRepository @Inject constructor(
     }
 
 
-    fun getSpecifiArtistSongs(artistName: String): Flow<UiState<ArtistModel>> {
+    fun getSpecificArtistSongs(artistName: String): Flow<UiState<ArtistModel>> {
         return flow {
             emit(UiState.Loading)
             val artist = musicDao.getArtistByName(artistName)
@@ -147,7 +150,6 @@ class MusicRepository @Inject constructor(
 
     fun getSpecificAlbumSongs(albumId: String): Flow<UiState<AlbumModel>> {
         return flow {
-
             emit(UiState.Loading)
             val album = musicDao.getAlbumById(albumId)
             emit(UiState.Success(album))

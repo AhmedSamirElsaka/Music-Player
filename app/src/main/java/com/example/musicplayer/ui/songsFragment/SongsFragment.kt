@@ -55,7 +55,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
                 if (it is UiState.Success && it.data.isNotEmpty()) {
 
                     songsAdapter.setData((it.data).sortedByDescending { it.songDateAdded })
-                    musicPlayerViewModel.onPlayerEvents(PlayerEvents.ClearMediaItems)
+//                    musicPlayerViewModel.onPlayerEvents(PlayerEvents.ClearMediaItems)
                     musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddPlaylist(it.data.sortedByDescending { it.songDateAdded }))
 //                    lastPlayedSongPosition = getFloatValue()
 //                    Log.i("hello", "onViewCreated: $lastPlayedSongPosition")
@@ -73,7 +73,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener {
     }
 
     override fun onSongClick(song: SongModel, position: Int) {
-        musicPlayerViewModel.onPlayerEvents(PlayerEvents.GoToSpecificItem(position))
+       musicPlayerViewModel.onPlayerEvents(PlayerEvents.GetThePositionOfSpecificSongInsideThePlaylist(song.songId))
 //        musicPlayerViewModel.onPlayerEvents(PlayerEvents.PausePlay)
         val musicBottomSheetFragment = MusicBottomSheetFragment()
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }

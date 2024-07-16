@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 class ArtistRepository @Inject constructor(
     private val musicDao: MusicDao,
-     private var appContext: Context
+    private var appContext: Context
 ) {
     private var _audioListGroupedByArtist: MutableStateFlow<UiState<List<ArtistModel>>> =
         MutableStateFlow(UiState.Loading)
@@ -148,5 +148,4 @@ class ArtistRepository @Inject constructor(
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/media"), songId)
     }
 }
-
 

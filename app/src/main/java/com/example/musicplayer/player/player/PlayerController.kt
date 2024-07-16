@@ -20,7 +20,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 class PlayerController(
     private val player: ExoPlayer,
@@ -51,6 +50,18 @@ class PlayerController(
             Log.i("hello", "onMediaItemTransition: " + player.currentMediaItemIndex.toFloat())
         }
 
+    }
+
+    // Function to find the index of the track by ID or name
+    fun findTrackIndexById(trackId: String): Int {
+        for (i in 0 until player.mediaItemCount) {
+            val mediaItem = player.getMediaItemAt(i)
+            if (mediaItem.mediaId.equals(trackId)) {
+                goToSpecificItem(i)
+                return i
+            }
+        }
+        return -1 // Track not found
     }
 
     override fun onIsPlayingChanged(isPlaying: Boolean) {
@@ -124,7 +135,7 @@ class PlayerController(
     }
 
 
-    fun clearPlayer(){
+    fun clearPlayer() {
         player.stop()
         player.clearMediaItems()
     }
@@ -137,6 +148,7 @@ class PlayerController(
                 setUri(item.songPath)
                 setMediaId(item.songId)
                 setMediaMetadata(metadata)
+
             }.build()
             player.addMediaItem(mediaItem)
         }
@@ -154,7 +166,7 @@ class PlayerController(
         currentSong.value = toMusicItem(player.currentMediaItem!!)
 
         saveFloatValue(player.currentMediaItemIndex.toFloat())
-        Log.i("hello", "goToSpecificItem: " + player.currentMediaItemIndex.toFloat())
+//        Log.i("hello", "goToSpecificItem: " + player.currentMediaItemIndex.toFloat())
     }
 
     fun previousItem() {

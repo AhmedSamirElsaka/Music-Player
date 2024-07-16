@@ -1,7 +1,6 @@
 package com.example.musicplayer.ui.artistsAndAlbumsSongs
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -79,8 +78,11 @@ class ArtistsAndAlbumsSongsFragment : BaseFragment<FragmentArtistsAndAlbumsSongB
     }
 
     override fun onSongClick(song: SongModel, position: Int) {
-        musicPlayerViewModel.onPlayerEvents(PlayerEvents.GoToSpecificItem(position))
-        musicPlayerViewModel.onPlayerEvents(PlayerEvents.PausePlay)
+        musicPlayerViewModel.onPlayerEvents(
+            PlayerEvents.GetThePositionOfSpecificSongInsideThePlaylist(
+                song.songId
+            )
+        )
         val musicBottomSheetFragment = MusicBottomSheetFragment()
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }

@@ -18,8 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MusicPlayerViewModel @Inject constructor(
     player: ExoPlayer,
-    @ApplicationContext context: Context ,
-    private var  sharedPreferences: SharedPreferences
+    @ApplicationContext context: Context,
+    private var sharedPreferences: SharedPreferences
 ) : ViewModel() {
 
     private var _currentSong = MutableStateFlow(SongItemWithInitialValue)
@@ -50,15 +50,11 @@ class MusicPlayerViewModel @Inject constructor(
     val currentSongProgressInMinutes = _currentSongProgressInMinutes.asStateFlow()
 
 
-
-
-
-
     private val playerController =
         PlayerController(
             player, _currentSong, _currentMediaPosition,
             _currentSongDurationInMinutes, _currentSongProgressInMinutes, _isPlayPlaying,
-            _isPlayerBuffering, _isShuffleClicked, _isRepeatClick, viewModelScope , sharedPreferences
+            _isPlayerBuffering, _isShuffleClicked, _isRepeatClick, viewModelScope, sharedPreferences
         )
 
     init {
@@ -80,9 +76,12 @@ class MusicPlayerViewModel @Inject constructor(
             is PlayerEvents.SeekBack -> playerController.seekBack()
             is PlayerEvents.MoveToSpecificPosition -> playerController.moveToSpecificPosition(event.position)
             is PlayerEvents.ClearMediaItems -> playerController.clearPlayer()
+            is PlayerEvents.GetThePositionOfSpecificSongInsideThePlaylist -> playerController.findTrackIndexById(
+                event.id
+            )
+
             else -> {}
         }
     }
-
 }
 

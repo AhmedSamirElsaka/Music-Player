@@ -4,11 +4,9 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayer.data.model.AlbumModel
 import com.example.musicplayer.data.model.ArtistModel
-import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.MusicRepository
 import com.example.musicplayer.ui.base.BaseViewModel
 import com.example.musicplayer.utilities.UiState
-import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -46,7 +44,7 @@ class ArtistsAndAlbumsSongsViewModel @Inject constructor(
     fun getSpecificSongsByArtistId(artistName: String) {
         viewModelScope.launch {
             _artistAudioList.value = UiState.Loading
-            val musicFlow = musicRepository.getSpecifiArtistSongs(artistName)
+            val musicFlow = musicRepository.getSpecificArtistSongs(artistName)
             musicFlow.collect { resource ->
                 _artistAudioList.value = resource
                 Log.i("hello", "getSpecificSongsByAlbumId: " + resource)
