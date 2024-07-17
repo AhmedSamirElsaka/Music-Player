@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.musicplayer.data.model.AlbumModel
 import com.example.musicplayer.data.model.ArtistModel
+import com.example.musicplayer.data.model.PlaylistModel
 import com.example.musicplayer.data.model.SongModel
 
 
@@ -46,4 +47,13 @@ interface MusicDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllAlbums(albums: List<AlbumModel>)
 
+
+    @Query("SELECT * FROM PlaylistModel")
+    suspend fun getAllPlaylists(): List<PlaylistModel>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPlaylist(playlist: PlaylistModel)
+
+    @Query("SELECT * FROM PlaylistModel WHERE playlistName = :name LIMIT 1")
+    fun getPlaylistByName(name: String): PlaylistModel
 }
