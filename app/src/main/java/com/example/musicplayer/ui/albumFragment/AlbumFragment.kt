@@ -7,7 +7,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
-import com.example.musicplayer.data.model.AlbumModel
 import com.example.musicplayer.databinding.FragmentAlbumBinding
 import com.example.musicplayer.ui.base.BaseFragment
 import com.example.musicplayer.ui.homeFragment.HomeFragmentDirections
@@ -33,6 +32,7 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
             adapter = albumAdapter
             layoutManager = LinearLayoutManager(context)
         }
+        binding.viewModel = viewModel
 
 
         viewLifecycleOwner.lifecycleScope.launch {
@@ -46,7 +46,11 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
     }
 
     override fun onAlbumClick(albumId: String) {
-        val action = HomeFragmentDirections.actionHomeFragmentToArtistsAndAlbumsSongFragment(true , albumId , "")
+        val action = HomeFragmentDirections.actionHomeFragmentToArtistsAndAlbumsSongFragment(
+            true,
+            albumId,
+            ""
+        )
         findNavController().navigate(action)
     }
 }

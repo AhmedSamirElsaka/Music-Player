@@ -54,6 +54,7 @@
         android:layout_marginStart="@dimen/_8sdp"
         android:textColor="@color/white"
         android:textSize="@dimen/_16ssp"
+        android:text="@{String.format(`%d Songs`, viewModel.audioList.toData().size())}"
         app:layout_constraintBottom_toBottomOf="@+id/playAllTv"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

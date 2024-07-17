@@ -34,6 +34,7 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(), OnArtistListener {
             layoutManager = LinearLayoutManager(context)
         }
 
+        binding.viewModel = viewModel
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioListGroupedByArtist.collect {

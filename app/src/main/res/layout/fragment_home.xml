@@ -49,7 +49,7 @@
             android:id="@+id/homeTitleTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_12sdp"
+            android:layout_margin="16dp"
             android:text="MUSIC PLAYER"
             android:textColor="@color/white"
             android:textSize="@dimen/_24ssp"
@@ -62,13 +62,19 @@
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/homeTabLayout"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_8sdp"
             android:background="@color/black"
+            android:textDirection="ltr"
+            app:tabIndicatorFullWidth="true"
+            app:layout_constraintHorizontal_bias="0"
+            android:layout_marginStart="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/homeTitleTv"
+            app:tabGravity="center"
+            app:tabMode="scrollable"
             app:tabSelectedTextAppearance="@color/main_color"
             app:tabSelectedTextColor="@color/main_color"
             app:tabTextColor="@color/white" />
@@ -137,10 +143,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            app:setImagePlayOrStop="@{viewModel.isPlayPlaying()}"
             app:layout_constraintBottom_toBottomOf="@+id/home_next_song_image"
             app:layout_constraintEnd_toStartOf="@+id/home_next_song_image"
             app:layout_constraintTop_toTopOf="@+id/home_next_song_image"
+            app:setImagePlayOrStop="@{viewModel.isPlayPlaying()}"
             app:tint="@color/white" />
 
         <ImageView
