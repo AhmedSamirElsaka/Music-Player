@@ -24,7 +24,7 @@ class PlaylistViewModel @Inject constructor(
 
 
 
-    fun fetchAllMusics() {
+    fun fetchAllPlaylists() {
         viewModelScope.launch {
             _playlists.value = UiState.Loading
             val playlistsFlow = playlistRepository.getPlaylists()

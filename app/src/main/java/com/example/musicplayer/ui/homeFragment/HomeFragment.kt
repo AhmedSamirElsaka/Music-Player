@@ -1,30 +1,25 @@
 package com.example.musicplayer.ui.homeFragment
 
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentHomeBinding
 import com.example.musicplayer.ui.base.BaseFragment
+import com.example.musicplayer.ui.musicBottomSheet.MusicBottomSheetFragment
 import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
 import com.example.musicplayer.utilities.PlayerEvents
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>() {
+class HomeFragment : BaseFragment<FragmentHomeBinding>(), ClickHandlers {
     override val layoutFragmentId: Int = com.example.musicplayer.R.layout.fragment_home
     override val viewModel: MusicPlayerViewModel by activityViewModels()
 
-
     private lateinit var viewPagerAdapter: ViewPagerAdapter
-
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,6 +39,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
         }
 
         binding.viewModel = viewModel
+        binding.clickHandler = this
 
         binding.apply {
             homeNextSongImage.setOnClickListener { viewModel!!.onPlayerEvents(PlayerEvents.Next) }
@@ -83,6 +79,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
         }
         popupMenu.show()
+    }
+
+    override fun showMusicBottomSheet() {
+        val musicBottomSheetFragment = MusicBottomSheetFragment()
+        fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 
 

@@ -1,6 +1,7 @@
 package com.example.musicplayer.data.source
 
 import android.content.Context
+import android.util.Log
 import com.example.musicplayer.data.model.PlaylistModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
@@ -26,6 +27,7 @@ class PlaylistRepository @Inject constructor(
             val cachedPlaylists = musicDao.getAllPlaylists()
             if (cachedPlaylists.isNotEmpty()) {
                 emit(UiState.Success(cachedPlaylists))
+                Log.i("hello", "getPlaylists: "+cachedPlaylists)
             } else {
                 musicDao.insertPlaylist(PlaylistModel("Liked", mutableListOf()))
                 musicDao.insertPlaylist(PlaylistModel("Recently Played", mutableListOf()))

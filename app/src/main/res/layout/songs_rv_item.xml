@@ -40,14 +40,14 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/artistMoreImage"
+            app:layout_constraintEnd_toStartOf="@+id/playlistMoreImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:text="hello ahmed" />
 
         <TextView
-            android:id="@+id/artistNameTv"
+            android:id="@+id/playlistSongsCount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -65,13 +65,13 @@
             tools:text="AbbaVEVO" />
 
         <ImageView
-            android:id="@+id/artistMoreImage"
+            android:id="@+id/playlistMoreImage"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:alpha="0.5"
             android:scaleType="centerCrop"
             android:src="@drawable/three_dots"
-            app:layout_constraintBottom_toBottomOf="@+id/artistNameTv"
+            app:layout_constraintBottom_toBottomOf="@+id/playlistSongsCount"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/nonPlayedSongNameTv"
             app:layout_constraintVertical_bias="0.5"
@@ -128,7 +128,7 @@
             android:layout_height="wrap_content"
             android:foregroundTint="@color/main_color"
             android:visibility="visible"
-            app:constraint_referenced_ids="artistNameTv , artistMoreImage , artistNameTv" />
+            app:constraint_referenced_ids="playlistSongsCount , playlistMoreImage , playlistSongsCount" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/PlayedGroup"

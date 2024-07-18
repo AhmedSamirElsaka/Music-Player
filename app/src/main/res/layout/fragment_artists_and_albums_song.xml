@@ -21,7 +21,7 @@
         tools:context=".ui.songsFragment.SongsFragment">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/albumImage"
+            android:id="@+id/image"
             android:layout_width="@dimen/_40sdp"
             android:layout_height="@dimen/_40sdp"
             android:layout_margin="16dp"
@@ -33,7 +33,7 @@
             app:shapeAppearanceOverlay="@style/HomeRoundedCornersImageView" />
 
         <TextView
-            android:id="@+id/albumNameTv"
+            android:id="@+id/name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_8sdp"
@@ -42,15 +42,15 @@
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="@dimen/_16ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/albumImage"
+            app:layout_constraintBottom_toBottomOf="@+id/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.349"
-            app:layout_constraintStart_toEndOf="@+id/albumImage"
-            app:layout_constraintTop_toTopOf="@+id/albumImage"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="@+id/image"
             app:layout_constraintVertical_bias="0" />
 
         <TextView
-            android:id="@+id/artistNameTv"
+            android:id="@+id/songsCount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_8sdp"
@@ -60,11 +60,11 @@
             android:lines="1"
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
-            app:layout_constraintBottom_toBottomOf="@+id/albumImage"
+            app:layout_constraintBottom_toBottomOf="@+id/image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.139"
-            app:layout_constraintStart_toEndOf="@+id/albumImage"
-            app:layout_constraintTop_toTopOf="@+id/albumImage"
+            app:layout_constraintStart_toEndOf="@+id/image"
+            app:layout_constraintTop_toTopOf="@+id/image"
             app:layout_constraintVertical_bias="1.0" />
 
 
@@ -79,7 +79,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/albumImage"
+            app:layout_constraintTop_toBottomOf="@+id/image"
             app:layout_constraintVertical_bias="0.0" />
 
         <TextView
@@ -155,7 +155,7 @@
             android:id="@+id/album_details_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:constraint_referenced_ids="albumImage,albumNameTv,artistNameTv"
+            app:constraint_referenced_ids="image,name,songsCount"
             app:showVisibleWhenTrue="@{is_from_albums_fragment}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

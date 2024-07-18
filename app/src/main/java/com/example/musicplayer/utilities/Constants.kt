@@ -9,3 +9,5 @@ val SongItemWithInitialValue = SongModel("" , "" , ""  , ""  , 0 ,"" +
 const val SHARED_PREFERENCES_NAME = "MySharedPreferences"
 const val IS_THE_FIRST_TIME = "first_time_open_the_app"
 const val LAST_PLAYED_SONG = "last_played_song"
+
+

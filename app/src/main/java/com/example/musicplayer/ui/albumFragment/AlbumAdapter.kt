@@ -43,8 +43,8 @@ class AlbumAdapter(
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         val item = list[position]
-        holder.binding.albumNameTv.text = item.albumName
-        holder.binding.artistNameTv.text = item.albumCreator
+        holder.binding.albumName.text = item.albumName
+        holder.binding.albumArtist.text = item.albumCreator
         holder.binding.albumId = item.albumID
         holder.binding.listener = listener
         if (item.albumArt != null) {

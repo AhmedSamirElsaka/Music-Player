@@ -2,12 +2,13 @@ package com.example.musicplayer.ui.playlistFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.example.musicplayer.BR
+import com.example.musicplayer.R
 import com.example.musicplayer.data.model.PlaylistModel
-import com.example.musicplayer.data.model.SongModel
-import com.example.musicplayer.databinding.PlaylistRvItemBinding
-import com.example.musicplayer.databinding.SongsRvItemBinding
 import com.example.musicplayer.ui.base.BaseDiffUtil
 
 class PlaylistAdapter(
@@ -15,7 +16,8 @@ class PlaylistAdapter(
     private var listener: OnPlaylistsListener
 ) : RecyclerView.Adapter<PlaylistAdapter.PlaylistViewHolder>() {
 
-    class PlaylistViewHolder(val binding: PlaylistRvItemBinding) : RecyclerView.ViewHolder(binding.root)
+    class PlaylistViewHolder(val binding: ViewDataBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
     fun setData(newList: List<PlaylistModel>) {
         val diffResult =
@@ -25,18 +27,33 @@ class PlaylistAdapter(
 
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if(position == (list.size - 1)) {
+            R.layout.add_playlist_rv_item
+        } else {
+            R.layout.playlist_rv_item
+        }
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaylistViewHolder {
-        val binding = PlaylistRvItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PlaylistViewHolder(binding)
+        return PlaylistViewHolder(
+            DataBindingUtil.inflate(
+                LayoutInflater.from(parent.context), viewType, parent, false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: PlaylistViewHolder, position: Int) {
-//        holder.binding.song = list[position]
-//        holder.binding.playedSongNameTv.text = list[position].songName
-//        holder.binding.nonPlayedSongNameTv.text = list[position].songName
-//        holder.binding.listener = listener
-//        holder.binding.position = position
-
+        if (position != (list.size - 1)) {
+            holder.binding.run {
+                setVariable(
+                    BR.playlistModel, list[position]
+                )
+                setVariable(
+                    BR.listener, listener
+                )
+            }
+        }
     }
 
     override fun getItemCount(): Int = list.size
@@ -48,6 +65,6 @@ class PlaylistAdapter(
 }
 
 interface OnPlaylistsListener {
-    fun onPlayListClick(playlist: PlaylistModel )
+    fun onPlayListClick(playlist: PlaylistModel)
 }
 

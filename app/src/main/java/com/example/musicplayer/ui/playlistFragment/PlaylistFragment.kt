@@ -1,38 +1,70 @@
 package com.example.musicplayer.ui.playlistFragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
 import com.example.musicplayer.data.model.PlaylistModel
 import com.example.musicplayer.databinding.FragmentPlaylistBinding
-import com.example.musicplayer.databinding.FragmentSongsBinding
 import com.example.musicplayer.ui.base.BaseFragment
-import com.example.musicplayer.ui.songsFragment.OnSongsListener
-import com.example.musicplayer.ui.songsFragment.SongViewModel
-import com.example.musicplayer.ui.songsFragment.SongsAdapter
+import com.example.musicplayer.ui.homeFragment.HomeFragmentDirections
+import com.example.musicplayer.utilities.UiState
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [PlaylistFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
+@AndroidEntryPoint
 class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>(), OnPlaylistsListener {
     override val layoutFragmentId: Int = R.layout.fragment_playlist
     override val viewModel: PlaylistViewModel by viewModels()
     private lateinit var playListAdapter: PlaylistAdapter
 
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        playListAdapter = PlaylistAdapter(mutableListOf(), this)
+
+        viewModel.fetchAllPlaylists()
+
+
+        binding.playlistRv.apply {
+            adapter = playListAdapter
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+        }
+
+
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.playlists.collect {
+                if (it is UiState.Success && it.data.isNotEmpty()) {
+                    playListAdapter.setData(
+                        (it.data.toMutableList().apply {
+                            add(
+                                PlaylistModel(
+                                    "",
+                                    mutableListOf()
+                                )
+                            )
+                        }.toList()).sortedByDescending { it.playlistName })
+                }
+            }
+        }
+
+
+    }
+
     override fun onPlayListClick(playlist: PlaylistModel) {
-        TODO("Not yet implemented")
+        val action = HomeFragmentDirections.actionHomeFragmentToArtistsAndAlbumsSongFragment(
+            true,
+            "",
+            "",
+            playlist.playlistName
+        )
+        findNavController().navigate(action)
     }
 
 

@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.util.Log
 import com.example.musicplayer.data.model.AlbumModel
 import com.example.musicplayer.data.model.ArtistModel
+import com.example.musicplayer.data.model.PlaylistModel
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
@@ -148,10 +149,20 @@ class MusicRepository @Inject constructor(
         }.flowOn(Dispatchers.IO)
     }
 
+
+
     fun getSpecificAlbumSongs(albumId: String): Flow<UiState<AlbumModel>> {
         return flow {
             emit(UiState.Loading)
             val album = musicDao.getAlbumById(albumId)
+            emit(UiState.Success(album))
+        }.flowOn(Dispatchers.IO)
+    }
+
+    fun getSpecificPlaylistsSongs(playlistName:String):Flow<UiState<PlaylistModel>>{
+        return flow {
+            emit(UiState.Loading)
+            val album = musicDao.getPlaylistByName(playlistName)
             emit(UiState.Success(album))
         }.flowOn(Dispatchers.IO)
     }

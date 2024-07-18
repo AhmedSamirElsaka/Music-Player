@@ -5,6 +5,7 @@ import com.example.musicplayer.data.source.AlbumRepository
 import com.example.musicplayer.data.source.ArtistRepository
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.data.source.MusicRepository
+import com.example.musicplayer.data.source.PlaylistRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +30,10 @@ object RepoModule {
     @Provides
     fun provideAlbumsRepo( musicDao: MusicDao , @ApplicationContext appContext: Context): AlbumRepository {
         return AlbumRepository(musicDao , appContext)
+    }
+
+    @Provides
+    fun providePlaylistsRepo( musicDao: MusicDao , @ApplicationContext appContext: Context): PlaylistRepository {
+        return PlaylistRepository(musicDao , appContext)
     }
 }

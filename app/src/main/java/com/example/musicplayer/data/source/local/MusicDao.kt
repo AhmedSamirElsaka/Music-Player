@@ -54,6 +54,6 @@ interface MusicDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertPlaylist(playlist: PlaylistModel)
 
-    @Query("SELECT * FROM PlaylistModel WHERE playlistName = :name LIMIT 1")
+    @Query("SELECT * FROM PlaylistModel WHERE playlistName = :name ")
     fun getPlaylistByName(name: String): PlaylistModel
 }

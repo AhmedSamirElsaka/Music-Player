@@ -1,6 +1,7 @@
-package com.example.musicplayer.ui.artistsAndAlbumsSongs
+package com.example.musicplayer.ui.artistsAndAlbumsAndPlaylistsSongs
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -22,41 +23,66 @@ import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
-class ArtistsAndAlbumsSongsFragment : BaseFragment<FragmentArtistsAndAlbumsSongBinding>(),
+class ArtistsAndAlbumsAndPlaylistsSongsFragment :
+    BaseFragment<FragmentArtistsAndAlbumsSongBinding>(),
     OnSongsListener {
     override val layoutFragmentId: Int = R.layout.fragment_artists_and_albums_song
     override val viewModel: ArtistsAndAlbumsSongsViewModel by viewModels()
     private lateinit var songsAdapter: SongsAdapter
     private val musicPlayerViewModel: MusicPlayerViewModel by activityViewModels()
-    val args: ArtistsAndAlbumsSongsFragmentArgs by navArgs()
+    val args: ArtistsAndAlbumsAndPlaylistsSongsFragmentArgs by navArgs()
     private var albumId = ""
     private var artistId = ""
+    private var playlistName = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         albumId = args.albumId
         artistId = args.artistId
+        playlistName = args.playlistName
 
-
-        binding.isFromAlbumsFragment = args.isFromAlbumsFragment
+        binding.isFromAlbumsFragment = args.isFromAlbumsOrPlaylistFragment
 
         if (!albumId.equals("")) {
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.getSpecificSongsByAlbumId(albumId)
                 viewModel.albumAudioList.collect {
-                    if (it is UiState.Success && it.data.albumSongs.isNotEmpty()) {
+                    if (it is UiState.Success) {
                         val songs = it.data.albumSongs
+                        songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
+                        binding.image.setImageResource(R.drawable.album)
+                        binding.name.text = it.data.albumName
+                        "${it.data.albumSongs.size} songs".also { binding.songsCount.text = it }
+
+                    }
+                }
+            }
+        } else if (!artistId.equals("")) {
+            viewModel.getSpecificSongsByArtistId(artistId)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.artistAudioList.collect {
+                    if (it is UiState.Success) {
+                        val songs = it.data.artistSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
                     }
                 }
             }
         } else {
-            viewModel.getSpecificSongsByArtistId(artistId)
+            Log.i("hello", "onViewCreated: beign")
+            Log.i("hello", "onViewCreated: " + playlistName)
+
+            viewModel.getSpecificPlaylistSongsByName(playlistName)
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.artistAudioList.collect {
-                    if (it is UiState.Success && it.data.artistSongs.isNotEmpty()) {
-                        val songs = it.data.artistSongs
+                Log.i("hello", "onViewCreated: error")
+                viewModel.playlistsList.collect {
+
+                    if (it is UiState.Success) {
+                        Log.i("hello", "onViewCreated: success")
+                        val songs = it.data.playlistSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
+                        binding.image.setImageResource(R.drawable.playlist)
+                        binding.name.text = playlistName
+                        "${it.data.playlistSongs.size} songs".also { binding.songsCount.text = it }
                     }
                 }
             }

@@ -9,6 +9,9 @@
             name="viewModel"
             type="com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel" />
 
+        <variable
+            name="clickHandler"
+            type="com.example.musicplayer.ui.homeFragment.ClickHandlers" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,9 +22,10 @@
 
         <ImageView
             android:id="@+id/more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_margin="16dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/three_dots"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -33,9 +37,9 @@
 
         <ImageView
             android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:layout_marginEnd="32dp"
             android:src="@drawable/search"
             app:layout_constraintBottom_toBottomOf="@+id/more"
             app:layout_constraintEnd_toStartOf="@+id/more"
@@ -84,6 +88,7 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="@dimen/_8sdp"
+            android:onClick="@{() -> clickHandler.showMusicBottomSheet()}"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -92,12 +97,13 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/home_song_image"
             android:layout_width="@dimen/_30sdp"
             android:layout_height="@dimen/_30sdp"
             android:layout_marginVertical="8dp"
             android:layout_marginStart="16dp"
             android:scaleType="centerCrop"
+            android:onClick="@{() -> clickHandler.showMusicBottomSheet()}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -115,13 +121,14 @@
             android:layout_marginEnd="16dp"
             android:ellipsize="end"
             android:lines="1"
+            android:onClick="@{() -> clickHandler.showMusicBottomSheet()}"
             android:text="@{viewModel.currentSongFlow.songName}"
             android:textSize="@dimen/_12ssp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintBottom_toBottomOf="@+id/home_song_image"
             app:layout_constraintEnd_toStartOf="@+id/home_song_play_pause_image"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/imageView4"
+            app:layout_constraintStart_toEndOf="@+id/home_song_image"
+            app:layout_constraintTop_toTopOf="@+id/home_song_image"
             app:layout_constraintVertical_bias="0" />
 
         <TextView
@@ -130,18 +137,19 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginEnd="16dp"
+            android:onClick="@{() -> clickHandler.showMusicBottomSheet()}"
             android:alpha="0.5"
             android:text="@{viewModel.currentSongFlow.songArtist}"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintBottom_toBottomOf="@+id/home_song_image"
             app:layout_constraintEnd_toStartOf="@+id/home_song_play_pause_image"
-            app:layout_constraintStart_toEndOf="@+id/imageView4"
-            app:layout_constraintTop_toTopOf="@+id/imageView4"
+            app:layout_constraintStart_toEndOf="@+id/home_song_image"
+            app:layout_constraintTop_toTopOf="@+id/home_song_image"
             app:layout_constraintVertical_bias="1" />
 
         <ImageView
             android:id="@+id/home_song_play_pause_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
             android:layout_marginEnd="16dp"
             app:layout_constraintBottom_toBottomOf="@+id/home_next_song_image"
             app:layout_constraintEnd_toStartOf="@+id/home_next_song_image"
@@ -151,13 +159,13 @@
 
         <ImageView
             android:id="@+id/home_next_song_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
             android:layout_marginEnd="16dp"
             android:src="@drawable/next_svgrepo_com"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView4"
+            app:layout_constraintBottom_toBottomOf="@+id/home_song_image"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imageView4"
+            app:layout_constraintTop_toTopOf="@+id/home_song_image"
             app:tint="@color/white" />
 
         <View
@@ -167,11 +175,10 @@
             android:layout_marginBottom="16dp"
             android:alpha="0.3"
             android:background="@color/white"
-            app:layout_constraintBottom_toTopOf="@+id/imageView4"
+            app:layout_constraintBottom_toTopOf="@+id/home_song_image"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="1" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

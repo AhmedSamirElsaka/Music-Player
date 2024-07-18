@@ -31,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/albumNameTv"
+            android:id="@+id/albumName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_8sdp"
@@ -39,14 +39,14 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_16ssp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/artistMoreImage"
+            app:layout_constraintEnd_toStartOf="@+id/albumMoreImage"
             app:layout_constraintStart_toEndOf="@+id/albumImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0."
             tools:text="hello ahmed" />
 
         <TextView
-            android:id="@+id/artistNameTv"
+            android:id="@+id/albumArtist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/_8sdp"
@@ -55,24 +55,24 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_11ssp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/artistMoreImage"
+            app:layout_constraintEnd_toStartOf="@+id/albumMoreImage"
             app:layout_constraintHorizontal_bias="0.476"
             app:layout_constraintStart_toEndOf="@+id/albumImage"
-            app:layout_constraintTop_toBottomOf="@id/albumNameTv"
+            app:layout_constraintTop_toBottomOf="@id/albumName"
             app:layout_constraintVertical_bias="1.0"
             tools:text="hello ahmed" />
 
 
         <ImageView
-            android:id="@+id/artistMoreImage"
+            android:id="@+id/albumMoreImage"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:layout_marginEnd="4dp"
             android:alpha="0.5"
             android:src="@drawable/right_arrow"
-            app:layout_constraintBottom_toBottomOf="@+id/artistNameTv"
+            app:layout_constraintBottom_toBottomOf="@+id/albumArtist"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/albumNameTv"
+            app:layout_constraintTop_toTopOf="@+id/albumName"
             app:tint="@color/white" />
 
 

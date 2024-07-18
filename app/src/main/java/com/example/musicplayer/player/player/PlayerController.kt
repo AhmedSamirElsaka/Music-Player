@@ -54,7 +54,6 @@ class PlayerController(
 
     // Function to find the index of the track by ID or name
     fun findTrackIndexById(trackId: String): Int {
-
         for (i in 0 until player.mediaItemCount) {
             val mediaItem = player.getMediaItemAt(i)
             if (mediaItem.mediaId.equals(trackId)) {
@@ -181,9 +180,7 @@ class PlayerController(
         player.seekTo(index, 0L)
         player.play()
         currentSong.value = toMusicItem(player.currentMediaItem!!)
-
         saveFloatValue(player.currentMediaItemIndex.toFloat())
-//        Log.i("hello", "goToSpecificItem: " + player.currentMediaItemIndex.toFloat())
     }
 
     fun previousItem() {

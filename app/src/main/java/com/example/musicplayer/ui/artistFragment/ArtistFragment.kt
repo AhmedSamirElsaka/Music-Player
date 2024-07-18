@@ -50,7 +50,7 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(), OnArtistListener {
         val action = HomeFragmentDirections.actionHomeFragmentToArtistsAndAlbumsSongFragment(
             false,
             "",
-            artistName
+            artistName ,
         )
         findNavController().navigate(action)
     }

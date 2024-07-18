@@ -44,6 +44,11 @@ class SongsAdapter(
 
     private fun areContentSame(oldItem: SongModel, newItem: SongModel) =
         oldItem.songName == newItem.songName
+
+
+    fun getData(): List<SongModel> {
+        return list
+    }
 }
 
 interface OnSongsListener {
