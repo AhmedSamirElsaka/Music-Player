@@ -3,10 +3,12 @@ package com.example.musicplayer.data.source
 
 import android.content.ContentResolver
 import android.content.Context
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.example.musicplayer.data.model.AlbumModel
 import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.PlaylistModel
@@ -39,16 +41,25 @@ class MusicRepository @Inject constructor(
         return flow {
             emit(UiState.Loading)
             val cachedMusic = musicDao.getAllMusic()
-
-            Log.i("hello", "getAudios: " + cachedMusic)
+            Log.i("hello", "getAudios1: " + cachedMusic)
             if (cachedMusic.isNotEmpty()) {
                 emit(UiState.Success(cachedMusic))
             }
+
+            // Check for permission
+            if (!hasReadExternalStoragePermission()) {
+                emit(UiState.Error("Permission not granted"))
+                return@flow
+            }
+
+
             try {
                 fetchAudioFilesFromDevice()
                 coroutineScope {
                     _audioList.collect {
-                        if (it is UiState.Success && it.data.isNotEmpty()) {
+                        Log.i("hello", "getAudios2: " + it)
+                        if (it is UiState.Success) {
+                            Log.i("hello", "getAudios3: " + it)
                             musicDao.insertAllMusic(it.data)
                             emit(it)
                         }
@@ -126,10 +137,11 @@ class MusicRepository @Inject constructor(
                     )
                     if (!song.songPath.contains("opus") && !song.songName.contains("AUD")) {
                         files.add(song)
+                        Log.i("hello", "getAudios4: " + song)
                     }
                 }
             }
-
+            Log.i("hello", "getAudios5: " + files)
             _audioList.value = UiState.Success(files)
 
         }
@@ -165,6 +177,11 @@ class MusicRepository @Inject constructor(
             val album = musicDao.getPlaylistByName(playlistName)
             emit(UiState.Success(album))
         }.flowOn(Dispatchers.IO)
+    }
+
+
+    private fun hasReadExternalStoragePermission(): Boolean {
+        return ContextCompat.checkSelfPermission(appContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
     }
 }
 

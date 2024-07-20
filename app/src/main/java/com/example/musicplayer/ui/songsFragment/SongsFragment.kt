@@ -1,8 +1,12 @@
 package com.example.musicplayer.ui.songsFragment
 
+import android.Manifest
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +26,10 @@ import com.example.musicplayer.utilities.SortOption
 import com.example.musicplayer.utilities.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import kotlin.coroutines.Continuation
+import kotlin.coroutines.resume
 
 
 @AndroidEntryPoint
@@ -38,12 +45,37 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
     lateinit var sharedPreferences: SharedPreferences
 
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted: Boolean ->
+        if (isGranted) {
+            permissionContinuation?.resume(true)
+        } else {
+            permissionContinuation?.resume(false)
+        }
+    }
+
+    private var permissionContinuation: Continuation<Boolean>? = null
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         songsAdapter = SongsAdapter(mutableListOf(), this)
 
-        viewModel.fetchAllMusics()
+
+
+        lifecycleScope.launch {
+            if (requestReadExternalStoragePermission()) {
+                // Permission granted, start your actions
+                viewModel.fetchAllMusics()
+            } else {
+                // Permission denied, handle accordingly
+                // You might want to show a message to the user
+            }
+        }
+
+//        viewModel.fetchAllMusics()
 
 
         binding.songsRv.apply {
@@ -72,7 +104,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
             }
 
             sort.setOnClickListener {
-                val sortBottomSheet = SortSongsBottomSheet.newInstance(this@SongsFragment )
+                val sortBottomSheet = SortSongsBottomSheet.newInstance(this@SongsFragment)
                 fragmentManager?.let { sortBottomSheet.show(it, sortBottomSheet.tag) }
             }
         }
@@ -124,18 +156,34 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
         when (sortOption) {
             SortOption.DATE_ADDED -> {
                 songsAdapter.setData(songsAdapter.getData().sortedByDescending { it.songDateAdded })
-                sortingOption =  SortOption.DATE_ADDED
+                sortingOption = SortOption.DATE_ADDED
             }
 
             SortOption.SONG_NAME -> {
                 songsAdapter.setData(songsAdapter.getData().sortedByDescending { it.songName })
-                sortingOption =  SortOption.SONG_NAME
+                sortingOption = SortOption.SONG_NAME
             }
 
             SortOption.ARTIST_NAME -> {
                 songsAdapter.setData(songsAdapter.getData().sortedByDescending { it.songArtist })
-                sortingOption =  SortOption.ARTIST_NAME
+                sortingOption = SortOption.ARTIST_NAME
             }
         }
     }
+
+    private suspend fun requestReadExternalStoragePermission(): Boolean =
+        suspendCancellableCoroutine { continuation ->
+            if (ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+            ) {
+                continuation.resume(true)
+            } else {
+                permissionContinuation = continuation
+                requestPermissionLauncher.launch(Manifest.permission.READ_EXTERNAL_STORAGE)
+            }
+        }
+
+
 }
