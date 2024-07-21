@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="artist_name"
+            type="String" />
+
+        <variable
+            name="album_name"
+            type="String" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#3F3F3F">
+
+        <TextView
+            android:id="@+id/artist_song_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/white"
+            android:textColor="@color/white"
+            android:padding="16dp"
+            android:text="@{artist_name}"
+            android:textSize="@dimen/_18ssp"
+            app:drawableStartCompat="@drawable/artist"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="ahmed samir" />
+
+
+        <TextView
+            android:id="@+id/album_song_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:drawablePadding="16dp"
+            android:textColor="@color/white"
+            android:drawableTint="@color/white"
+            android:padding="16dp"
+            android:text="@{album_name}"
+            android:textSize="@dimen/_18ssp"
+            app:drawableStartCompat="@drawable/album"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/artist_song_more_button"
+            app:layout_constraintVertical_bias="0.0"
+            tools:text="ahmed samir" />
+
+        <TextView
+            android:id="@+id/play_next_song_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/white"
+            android:padding="16dp"
+            android:textColor="@color/white"
+            android:text="Play next"
+            android:textSize="@dimen/_18ssp"
+            app:drawableStartCompat="@drawable/next_svgrepo_com"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/album_song_more_button"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/add_to_playlist_song_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/white"
+            android:padding="16dp"
+            android:text="Add to playlist"
+            android:textSize="@dimen/_18ssp"
+            android:textColor="@color/white"
+            app:drawableStartCompat="@drawable/next_svgrepo_com"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/play_next_song_more_button"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/song_info_song_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/white"
+            android:padding="16dp"
+            android:text="Song info"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_18ssp"
+            app:drawableStartCompat="@drawable/info_circle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_to_playlist_song_more_button"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/share_song_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/white"
+            android:padding="16dp"
+            android:text="Share"
+            android:textColor="@color/white"
+
+            android:textSize="@dimen/_18ssp"
+            app:drawableStartCompat="@drawable/share"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/song_info_song_more_button"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/delete_song_more_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="#00000000"
+            android:drawablePadding="16dp"
+            android:drawableTint="@color/white"
+            android:padding="16dp"
+            android:text="Delete"
+            android:textSize="@dimen/_18ssp"
+            android:textColor="@color/white"
+            app:drawableStartCompat="@drawable/info_circle"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/share_song_more_button"
+            app:layout_constraintVertical_bias="0.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="albumId"
+            name="albumNameVariable"
             type="String" />
 
         <variable
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/black"
-        android:onClick="@{()-> listener.onAlbumClick(albumId)}"
+        android:onClick="@{()-> listener.onAlbumClick(albumNameVariable)}"
         android:padding="@dimen/_8sdp">
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -43,7 +43,7 @@
             app:layout_constraintStart_toEndOf="@+id/albumImage"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0."
-            tools:text="hello ahmed" />
+            android:text="@{albumNameVariable}" />
 
         <TextView
             android:id="@+id/albumArtist"

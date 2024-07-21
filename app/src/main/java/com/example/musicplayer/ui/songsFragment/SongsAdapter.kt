@@ -53,6 +53,6 @@ class SongsAdapter(
 
 interface OnSongsListener {
     fun onSongClick(song: SongModel , position: Int)
-    fun onMoreImageClick()
+    fun onMoreImageClick(song: SongModel )
 }
 

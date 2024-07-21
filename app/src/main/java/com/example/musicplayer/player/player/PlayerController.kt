@@ -38,18 +38,21 @@ class PlayerController(
     var duration: Long = 0
 
     private lateinit var controller: ListenableFuture<MediaController>
-
+    private var songIdToPlayNext: String = ""
 
     override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
         super.onMediaItemTransition(mediaItem, reason)
         currentMediaPosition.value = 0f
 
+        if (reason == Player.MEDIA_ITEM_TRANSITION_REASON_AUTO && !songIdToPlayNext.equals("")) {
+            findTrackIndexById(songIdToPlayNext)
+            songIdToPlayNext = ""
+        }
         if (mediaItem != null) {
             currentSong.value = toMusicItem(mediaItem)
             saveFloatValue(player.currentMediaItemIndex.toFloat())
             Log.i("hello", "onMediaItemTransition: " + player.currentMediaItemIndex.toFloat())
         }
-
     }
 
     // Function to find the index of the track by ID or name
@@ -75,7 +78,8 @@ class PlayerController(
         when (playbackState) {
             Player.STATE_ENDED -> {
                 if (player.hasNextMediaItem()) {
-                    if (player.hasNextMediaItem()) nextItem()
+                    Log.i("hello", "onPlaybackStateChanged: true")
+                    nextItem()
                     saveFloatValue(player.currentMediaItemIndex.toFloat())
                 }
             }
@@ -270,5 +274,8 @@ class PlayerController(
         editor.apply()
     }
 
+    fun setSongToPlayNext(songId: String) {
+        songIdToPlayNext = songId
+    }
 
 }

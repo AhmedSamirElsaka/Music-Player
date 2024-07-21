@@ -1,5 +1,6 @@
 package com.example.musicplayer.ui.artistsAndAlbumsAndPlaylistsSongs
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -8,10 +9,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.example.musicplayer.R
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.databinding.FragmentArtistsAndAlbumsSongBinding
 import com.example.musicplayer.ui.base.BaseFragment
+import com.example.musicplayer.ui.homeSongMoreButtonBottomSheet.HomeSongMoreButtonBottomSheet
 import com.example.musicplayer.ui.musicBottomSheet.MusicBottomSheetFragment
 import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
 import com.example.musicplayer.ui.songsFragment.OnSongsListener
@@ -31,34 +34,37 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
     private lateinit var songsAdapter: SongsAdapter
     private val musicPlayerViewModel: MusicPlayerViewModel by activityViewModels()
     val args: ArtistsAndAlbumsAndPlaylistsSongsFragmentArgs by navArgs()
-    private var albumId = ""
-    private var artistId = ""
+    private var albumName = ""
+    private var artistName = ""
     private var playlistName = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        albumId = args.albumId
-        artistId = args.artistId
+        albumName = args.albumName
+        artistName = args.artistName
         playlistName = args.playlistName
 
         binding.isFromAlbumsFragment = args.isFromAlbumsOrPlaylistFragment
 
-        if (!albumId.equals("")) {
+        if (!albumName.equals("")) {
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.getSpecificSongsByAlbumId(albumId)
+                viewModel.getSpecificSongsByAlbumName(albumName)
                 viewModel.albumAudioList.collect {
                     if (it is UiState.Success) {
                         val songs = it.data.albumSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
-                        binding.image.setImageResource(R.drawable.album)
+//                        binding.image.setImageResource(R.drawable.album_icon)
+                        Glide.with(this@ArtistsAndAlbumsAndPlaylistsSongsFragment)
+                            .load(Uri.parse(it.data.albumArt))
+                            .into(binding.image)
                         binding.name.text = it.data.albumName
                         "${it.data.albumSongs.size} songs".also { binding.songsCount.text = it }
 
                     }
                 }
             }
-        } else if (!artistId.equals("")) {
-            viewModel.getSpecificSongsByArtistId(artistId)
+        } else if (!artistName.equals("")) {
+            viewModel.getSpecificSongsByArtistName(artistName)
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.artistAudioList.collect {
                     if (it is UiState.Success) {
@@ -109,6 +115,9 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 
-    override fun onMoreImageClick() {
+
+    override fun onMoreImageClick(song: SongModel) {
+        val moreButtonBottomSheet = HomeSongMoreButtonBottomSheet.newInstance(song)
+        fragmentManager?.let { moreButtonBottomSheet.show(it, moreButtonBottomSheet.tag) }
     }
 }

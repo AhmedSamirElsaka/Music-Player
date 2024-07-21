@@ -36,10 +36,10 @@ class ArtistsAndAlbumsSongsViewModel @Inject constructor(
     val playlistsList = _playlistsList.asStateFlow()
 
 
-    fun getSpecificSongsByAlbumId(albumId: String) {
+    fun getSpecificSongsByAlbumName(albumName: String) {
         viewModelScope.launch {
             _albumAudioList.value = UiState.Loading
-            val musicFlow = musicRepository.getSpecificAlbumSongs(albumId)
+            val musicFlow = musicRepository.getSpecificAlbumSongs(albumName)
             musicFlow.collect { resource ->
                 _albumAudioList.value = resource
                 Log.i("hello", "getSpecificSongsByAlbumId: " + resource)
@@ -47,7 +47,7 @@ class ArtistsAndAlbumsSongsViewModel @Inject constructor(
         }
     }
 
-    fun getSpecificSongsByArtistId(artistName: String) {
+    fun getSpecificSongsByArtistName(artistName: String) {
         viewModelScope.launch {
             _artistAudioList.value = UiState.Loading
             val musicFlow = musicRepository.getSpecificArtistSongs(artistName)

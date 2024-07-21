@@ -1,27 +1,20 @@
 package com.example.musicplayer.ui.albumFragment
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.musicplayer.data.model.AlbumModel
-import com.example.musicplayer.data.model.ArtistModel
-import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.databinding.AlbumsRvItemBinding
-import com.example.musicplayer.databinding.ArtistsRvItemBinding
 import com.example.musicplayer.ui.base.BaseDiffUtil
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
 class AlbumAdapter(
     private var list: List<AlbumModel>,
-    private var listener: OnAlbumListener ,
-    private var context:Context
+    private var listener: OnAlbumListener,
+    private var context: Context
 ) : RecyclerView.Adapter<AlbumAdapter.AlbumViewHolder>() {
-
 
 
     class AlbumViewHolder(val binding: AlbumsRvItemBinding) :
@@ -43,9 +36,8 @@ class AlbumAdapter(
 
     override fun onBindViewHolder(holder: AlbumViewHolder, position: Int) {
         val item = list[position]
-        holder.binding.albumName.text = item.albumName
         holder.binding.albumArtist.text = item.albumCreator
-        holder.binding.albumId = item.albumID
+        holder.binding.albumNameVariable = item.albumName
         holder.binding.listener = listener
         if (item.albumArt != null) {
             Glide.with(context).load(item.albumArt).into(holder.binding.albumImage);
@@ -61,6 +53,6 @@ class AlbumAdapter(
 }
 
 interface OnAlbumListener {
-    fun onAlbumClick(albumId: String)
+    fun onAlbumClick(albumName: String)
 }
 

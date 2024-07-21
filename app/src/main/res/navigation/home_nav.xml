@@ -25,11 +25,11 @@
             app:argType="boolean" />
 
         <argument
-            android:name="albumId"
+            android:name="albumName"
             android:defaultValue="&quot;&quot;"
             app:argType="string" />
         <argument
-            android:name="artistId"
+            android:name="artistName"
             android:defaultValue="&quot;&quot;"
             app:argType="string" />
 

@@ -70,6 +70,7 @@
             android:layout_height="@dimen/_16sdp"
             android:alpha="0.5"
             android:scaleType="centerCrop"
+            android:onClick="@{() -> listener.onMoreImageClick(song)}"
             android:src="@drawable/three_dots"
             app:layout_constraintBottom_toBottomOf="@+id/playlistSongsCount"
             app:layout_constraintEnd_toEndOf="parent"

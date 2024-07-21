@@ -45,10 +45,10 @@ class AlbumFragment : BaseFragment<FragmentAlbumBinding>(), OnAlbumListener {
         }
     }
 
-    override fun onAlbumClick(albumId: String) {
+    override fun onAlbumClick(albumName: String) {
         val action = HomeFragmentDirections.actionHomeFragmentToArtistsAndAlbumsSongFragment(
             true,
-            albumId,
+            albumName,
             ""
         )
         findNavController().navigate(action)

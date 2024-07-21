@@ -163,10 +163,10 @@ class MusicRepository @Inject constructor(
 
 
 
-    fun getSpecificAlbumSongs(albumId: String): Flow<UiState<AlbumModel>> {
+    fun getSpecificAlbumSongs(albumName: String): Flow<UiState<AlbumModel>> {
         return flow {
             emit(UiState.Loading)
-            val album = musicDao.getAlbumById(albumId)
+            val album = musicDao.getAlbumByName(albumName)
             emit(UiState.Success(album))
         }.flowOn(Dispatchers.IO)
     }

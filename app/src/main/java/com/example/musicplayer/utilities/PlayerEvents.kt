@@ -21,4 +21,5 @@ sealed class PlayerEvents {
     object ClearMediaItems:PlayerEvents()
 
     data class GetThePositionOfSpecificSongInsideThePlaylist(val id:String) : PlayerEvents()
+    data class AddSongToPlayNext(val id:String):PlayerEvents()
 }

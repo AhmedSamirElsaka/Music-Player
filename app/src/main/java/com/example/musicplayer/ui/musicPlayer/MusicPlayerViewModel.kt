@@ -79,7 +79,7 @@ class MusicPlayerViewModel @Inject constructor(
             is PlayerEvents.GetThePositionOfSpecificSongInsideThePlaylist -> playerController.findTrackIndexById(
                 event.id
             )
-
+            is PlayerEvents.AddSongToPlayNext -> playerController.setSongToPlayNext(event.id)
             else -> {}
         }
     }

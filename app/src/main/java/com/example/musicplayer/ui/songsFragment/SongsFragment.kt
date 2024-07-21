@@ -15,6 +15,7 @@ import com.example.musicplayer.R
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.databinding.FragmentSongsBinding
 import com.example.musicplayer.ui.base.BaseFragment
+import com.example.musicplayer.ui.homeSongMoreButtonBottomSheet.HomeSongMoreButtonBottomSheet
 import com.example.musicplayer.ui.musicBottomSheet.MusicBottomSheetFragment
 import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
 import com.example.musicplayer.ui.sortSongsBottomSheet.OnSortOptionSelectedListener
@@ -144,8 +145,9 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 
-    override fun onMoreImageClick() {
-        TODO("Not yet implemented")
+    override fun onMoreImageClick(song: SongModel ) {
+        val moreButtonBottomSheet = HomeSongMoreButtonBottomSheet.newInstance(song)
+        fragmentManager?.let { moreButtonBottomSheet.show(it, moreButtonBottomSheet.tag) }
     }
 
     private fun getFloatValue(defaultValue: Float = 0F): Float {

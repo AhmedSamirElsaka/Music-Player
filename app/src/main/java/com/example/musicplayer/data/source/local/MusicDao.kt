@@ -43,6 +43,8 @@ interface MusicDao {
     @Query("SELECT * FROM AlbumModel WHERE albumID = :albumId")
     suspend fun getAlbumById(albumId: String): AlbumModel
 
+    @Query("SELECT * FROM AlbumModel WHERE albumName = :albumName")
+    suspend fun getAlbumByName(albumName: String): AlbumModel
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllAlbums(albums: List<AlbumModel>)
