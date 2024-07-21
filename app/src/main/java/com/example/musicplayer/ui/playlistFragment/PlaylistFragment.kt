@@ -67,5 +67,8 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>(), OnPlaylistsLis
         findNavController().navigate(action)
     }
 
-
+    override fun onAddNewPlaylistClick() {
+        val action = HomeFragmentDirections.actionHomeFragmentToNewPlaylistFragment()
+        findNavController().navigate(action)
+    }
 }

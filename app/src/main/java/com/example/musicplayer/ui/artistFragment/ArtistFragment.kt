@@ -20,6 +20,7 @@ class ArtistFragment : BaseFragment<FragmentArtistBinding>(), OnArtistListener {
     override val layoutFragmentId: Int = R.layout.fragment_artist
     override val viewModel: ArtistViewModel by viewModels()
     private lateinit var artistAdapter: ArtistAdapter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 

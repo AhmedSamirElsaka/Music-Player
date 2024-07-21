@@ -28,7 +28,7 @@ class PlaylistAdapter(
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(position == (list.size - 1)) {
+        return if (position == (list.size - 1)) {
             R.layout.add_playlist_rv_item
         } else {
             R.layout.playlist_rv_item
@@ -53,6 +53,12 @@ class PlaylistAdapter(
                     BR.listener, listener
                 )
             }
+        } else {
+            holder.binding.run {
+                setVariable(
+                    BR.listener, listener
+                )
+            }
         }
     }
 
@@ -66,5 +72,6 @@ class PlaylistAdapter(
 
 interface OnPlaylistsListener {
     fun onPlayListClick(playlist: PlaylistModel)
+    fun onAddNewPlaylistClick()
 }
 

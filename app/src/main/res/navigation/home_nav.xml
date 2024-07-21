@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_homeFragment_to_artistsAndAlbumsSongFragment"
             app:destination="@id/artistsAndAlbumsSongFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
     </fragment>
 
     <fragment
@@ -38,6 +41,11 @@
             android:defaultValue="&quot;&quot;"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/newPlaylistFragment"
+        android:name="com.example.musicplayer.ui.newPlaylistFragment.NewPlaylistFragment"
+        android:label="NewPlaylistFragment"
+        tools:layout="@layout/fragment_new_playlist"/>
 
 
 </navigation>

@@ -5,11 +5,13 @@ import android.util.Log
 import com.example.musicplayer.data.model.PlaylistModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class PlaylistRepository @Inject constructor(
@@ -27,7 +29,7 @@ class PlaylistRepository @Inject constructor(
             val cachedPlaylists = musicDao.getAllPlaylists()
             if (cachedPlaylists.isNotEmpty()) {
                 emit(UiState.Success(cachedPlaylists))
-                Log.i("hello", "getPlaylists: "+cachedPlaylists)
+                Log.i("hello", "getPlaylists: " + cachedPlaylists)
             } else {
                 musicDao.insertPlaylist(PlaylistModel("Liked", mutableListOf()))
                 musicDao.insertPlaylist(PlaylistModel("Recently Played", mutableListOf()))
@@ -42,5 +44,12 @@ class PlaylistRepository @Inject constructor(
 
             }
         }.flowOn(Dispatchers.IO)
+    }
+
+    fun addNewPlaylist(playlistName: String) {
+        CoroutineScope(Dispatchers.IO).launch {
+            musicDao.insertPlaylist(PlaylistModel(playlistName, mutableListOf()))
+        }
+
     }
 }
