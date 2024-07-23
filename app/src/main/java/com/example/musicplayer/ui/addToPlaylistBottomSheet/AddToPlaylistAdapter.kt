@@ -32,8 +32,7 @@ class AddToPlaylistAdapter(
     }
 
     override fun onBindViewHolder(holder: AddToPlaylistViewHolder, position: Int) {
-
-
+        holder.binding.playListName.text = list[position].playlistName
     }
 
     override fun getItemCount(): Int = list.size
