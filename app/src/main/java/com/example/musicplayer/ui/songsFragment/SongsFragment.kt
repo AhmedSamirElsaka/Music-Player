@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
@@ -71,8 +72,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
                 // Permission granted, start your actions
                 viewModel.fetchAllMusics()
             } else {
-                // Permission denied, handle accordingly
-                // You might want to show a message to the user
+                Log.i("hello", "onViewCreated: not granted permission")
             }
         }
 
