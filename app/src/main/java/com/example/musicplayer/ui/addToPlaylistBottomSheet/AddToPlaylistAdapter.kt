@@ -34,10 +34,8 @@ class AddToPlaylistAdapter(
     }
 
     override fun onBindViewHolder(holder: AddToPlaylistViewHolder, position: Int) {
-        holder.binding.playListName.text = list[position].playlistName
-        Log.i("ahmed", "onBindViewHolder: "+   list[position].playlistName)
-
-        Log.i("ahmed", "onBindViewHolder: "+  holder.binding.playListName.text)
+        holder.binding.playlist = list[position]
+        holder.binding.listener = listener
     }
 
     override fun getItemCount(): Int = list.size
@@ -51,6 +49,6 @@ class AddToPlaylistAdapter(
 }
 
 interface OnAddToPlaylistListener {
-    fun onPlaylistClick(song: SongModel)
+    fun onPlaylistClick(playlist: PlaylistModel)
 }
 

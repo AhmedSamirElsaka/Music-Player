@@ -83,28 +83,21 @@ class AddToPlaylistBottomSheet(private val song: SongModel) :
         bottomSheet.layoutParams.height = 1000
 
 
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getAllPlaylists()
             viewModel.playlists.collect {
                 if (it is UiState.Success) {
                     val playlists = it.data
                     addToPlaylistAdapter.setData((playlists).sortedByDescending { it.playlistName })
-
-                    Log.i("ahmed", "onViewCreated: " + playlists)
-//                        binding.image.setImageResource(R.drawable.album_icon)
-//                    Glide.with(this@ArtistsAndAlbumsAndPlaylistsSongsFragment)
-//                        .load(Uri.parse(it.data.albumArt))
-//                        .into(binding.image)
-//                    binding.name.text = it.data.albumName
-//                    "${it.data.albumSongs.size} songs".also { binding.songsCount.text = it }
-
                 }
             }
         }
     }
 
-    override fun onPlaylistClick(song: SongModel) {
-        TODO("Not yet implemented")
+    override fun onPlaylistClick(playlist:PlaylistModel) {
+
+        Log.i("ahmed", "onPlaylistClick: " + song + playlist)
+        viewModel.addSongToPlayList(song , playlist)
+        dismiss()
     }
 }

@@ -4,7 +4,10 @@ import android.net.Uri
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity
 data class SongModel(
     val songName: String,
@@ -17,4 +20,4 @@ data class SongModel(
     val songDateAdded :Long ,
     val songMimeType:String ,
     val songArt: String?
-)
+):Parcelable

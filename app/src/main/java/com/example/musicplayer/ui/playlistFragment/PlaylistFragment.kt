@@ -1,6 +1,7 @@
 package com.example.musicplayer.ui.playlistFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -41,6 +42,8 @@ class PlaylistFragment : BaseFragment<FragmentPlaylistBinding>(), OnPlaylistsLis
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.playlists.collect {
                 if (it is UiState.Success && it.data.isNotEmpty()) {
+
+                    Log.i("ahmed", "onViewCreated: " + it )
                     playListAdapter.setData(
                         (it.data.toMutableList().apply {
                             add(

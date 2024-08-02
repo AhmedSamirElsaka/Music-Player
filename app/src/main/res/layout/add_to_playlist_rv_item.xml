@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
 
+    <data>
+        <variable
+            name="playlist"
+            type="com.example.musicplayer.data.model.PlaylistModel" />
+
+        <variable
+            name="listener"
+            type="com.example.musicplayer.ui.addToPlaylistBottomSheet.OnAddToPlaylistListener" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +18,7 @@
         android:background="#303030">
 
         <TextView
-            android:id="@+id/play_list_name"
+            android:id="@+id/play_list_name_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
@@ -17,6 +26,8 @@
             android:backgroundTint="#303030"
             android:elevation="8dp"
             android:textColor="@color/white"
+            android:text="@{playlist.playlistName}"
+            android:onClick="@{() -> listener.onPlaylistClick(playlist)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -85,6 +85,14 @@ class HomeSongMoreButtonBottomSheet
                 fragmentManager?.let { moreButtonBottomSheet.show(it, moreButtonBottomSheet.tag) }
                 dismiss()
             }
+
+            songInfoSongMoreButton.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToSongInfoFragment(
+                    song
+                )
+                findNavController().navigate(action)
+                dismiss()
+            }
         }
     }
 }

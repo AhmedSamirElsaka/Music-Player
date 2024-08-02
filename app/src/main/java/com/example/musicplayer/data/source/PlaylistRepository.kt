@@ -3,6 +3,7 @@ package com.example.musicplayer.data.source
 import android.content.Context
 import android.util.Log
 import com.example.musicplayer.data.model.PlaylistModel
+import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
 import kotlinx.coroutines.CoroutineScope
@@ -50,6 +51,14 @@ class PlaylistRepository @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             musicDao.insertPlaylist(PlaylistModel(playlistName, mutableListOf()))
         }
-
     }
+
+    fun addSongToPlaylist(song:SongModel ,  playList: PlaylistModel) {
+        CoroutineScope(Dispatchers.IO).launch {
+           playList.playlistSongs.add(song)
+            musicDao.insertPlaylist(playList)
+        }
+    }
+
+
 }

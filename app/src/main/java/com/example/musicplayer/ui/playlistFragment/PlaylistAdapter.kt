@@ -1,5 +1,6 @@
 package com.example.musicplayer.ui.playlistFragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil

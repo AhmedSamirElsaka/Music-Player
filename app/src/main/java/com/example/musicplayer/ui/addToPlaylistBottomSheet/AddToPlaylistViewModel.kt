@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.PlaylistModel
+import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.MusicRepository
 import com.example.musicplayer.data.source.PlaylistRepository
 import com.example.musicplayer.ui.base.BaseViewModel
@@ -29,8 +30,13 @@ class AddToPlaylistViewModel  @Inject constructor(
             val musicFlow = playlistRepository.getPlaylists()
             musicFlow.collect { resource ->
                 _playlists.value = resource
-                Log.i("ahmed", "getAllPlaylists: " + resource)
             }
+        }
+    }
+
+    fun addSongToPlayList(song:SongModel , playList:PlaylistModel){
+        viewModelScope.launch {
+            playlistRepository.addSongToPlaylist(song , playList)
         }
     }
 
