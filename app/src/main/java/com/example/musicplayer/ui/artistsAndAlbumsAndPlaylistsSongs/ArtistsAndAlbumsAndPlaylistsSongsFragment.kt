@@ -19,7 +19,11 @@ import com.example.musicplayer.ui.musicBottomSheet.MusicBottomSheetFragment
 import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
 import com.example.musicplayer.ui.songsFragment.OnSongsListener
 import com.example.musicplayer.ui.songsFragment.SongsAdapter
+import com.example.musicplayer.ui.sortSongsBottomSheet.OnSortOptionSelectedListener
+import com.example.musicplayer.ui.sortSongsBottomSheet.SortSongsBottomSheet
+import com.example.musicplayer.ui.sortSongsBottomSheet.SortSongsBottomSheet.Companion.sortingOption
 import com.example.musicplayer.utilities.PlayerEvents
+import com.example.musicplayer.utilities.SortOption
 import com.example.musicplayer.utilities.UiState
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -28,7 +32,7 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class ArtistsAndAlbumsAndPlaylistsSongsFragment :
     BaseFragment<FragmentArtistsAndAlbumsSongBinding>(),
-    OnSongsListener {
+    OnSongsListener, OnSortOptionSelectedListener {
     override val layoutFragmentId: Int = R.layout.fragment_artists_and_albums_song
     override val viewModel: ArtistsAndAlbumsSongsViewModel by viewModels()
     private lateinit var songsAdapter: SongsAdapter
@@ -52,9 +56,12 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
                 viewModel.getSpecificSongsByAlbumName(albumName)
                 viewModel.albumAudioList.collect {
                     if (it is UiState.Success) {
+                        binding.songsCount.text = buildString {
+                            append(it.data.albumSongs.size.toString())
+                            append(" Song")
+                        }
                         val songs = it.data.albumSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
-//                        binding.image.setImageResource(R.drawable.album_icon)
                         Glide.with(this@ArtistsAndAlbumsAndPlaylistsSongsFragment)
                             .load(Uri.parse(it.data.albumArt))
                             .into(binding.image)
@@ -69,6 +76,10 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
             viewLifecycleOwner.lifecycleScope.launch {
                 viewModel.artistAudioList.collect {
                     if (it is UiState.Success) {
+                        binding.songsCount.text = buildString {
+                            append(it.data.artistSongs.size.toString())
+                            append(" Song")
+                        }
                         val songs = it.data.artistSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
                     }
@@ -79,9 +90,11 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
             viewLifecycleOwner.lifecycleScope.launch {
                 Log.i("hello", "onViewCreated: error")
                 viewModel.playlistsList.collect {
-
                     if (it is UiState.Success) {
-                        Log.i("hello", "onViewCreated: success")
+                        binding.songsCount.text = buildString {
+                            append(it.data.playlistSongs.size.toString())
+                            append(" Song")
+                        }
                         val songs = it.data.playlistSongs
                         songsAdapter.setData((songs).sortedByDescending { it.songDateAdded })
                         binding.image.setImageResource(R.drawable.playlist)
@@ -101,6 +114,13 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
             setHasFixedSize(true)
         }
 
+        binding.sort.setOnClickListener {
+            val sortBottomSheet =
+                SortSongsBottomSheet.newInstance(this@ArtistsAndAlbumsAndPlaylistsSongsFragment)
+            fragmentManager?.let { sortBottomSheet.show(it, sortBottomSheet.tag) }
+        }
+
+
     }
 
     override fun onSongClick(song: SongModel, position: Int) {
@@ -117,5 +137,24 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
     override fun onMoreImageClick(song: SongModel) {
         val moreButtonBottomSheet = HomeSongMoreButtonBottomSheet.newInstance(song)
         fragmentManager?.let { moreButtonBottomSheet.show(it, moreButtonBottomSheet.tag) }
+    }
+
+    override fun onSortOptionSelected(sortOption: SortOption) {
+        when (sortOption) {
+            SortOption.DATE_ADDED -> {
+                songsAdapter.setData(songsAdapter.getData().sortedByDescending { it.songDateAdded })
+                sortingOption = SortOption.DATE_ADDED
+            }
+
+            SortOption.SONG_NAME -> {
+                songsAdapter.setData(songsAdapter.getData().sortedByDescending { it.songName })
+                sortingOption = SortOption.SONG_NAME
+            }
+
+            SortOption.ARTIST_NAME -> {
+                songsAdapter.setData(songsAdapter.getData().sortedByDescending { it.songArtist })
+                sortingOption = SortOption.ARTIST_NAME
+            }
+        }
     }
 }
