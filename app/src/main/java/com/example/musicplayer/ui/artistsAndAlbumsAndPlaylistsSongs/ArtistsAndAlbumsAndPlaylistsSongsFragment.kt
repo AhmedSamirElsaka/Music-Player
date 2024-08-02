@@ -37,6 +37,7 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
     private var albumName = ""
     private var artistName = ""
     private var playlistName = ""
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -74,9 +75,6 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
                 }
             }
         } else {
-            Log.i("hello", "onViewCreated: beign")
-            Log.i("hello", "onViewCreated: " + playlistName)
-
             viewModel.getSpecificPlaylistSongsByName(playlistName)
             viewLifecycleOwner.lifecycleScope.launch {
                 Log.i("hello", "onViewCreated: error")

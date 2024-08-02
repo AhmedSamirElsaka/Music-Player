@@ -20,6 +20,7 @@
         android:onClick="@{()-> listener.onAlbumClick(albumNameVariable)}"
         android:padding="@dimen/_8sdp">
 
+
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/albumImage"
             android:layout_width="@dimen/_40sdp"

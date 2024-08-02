@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.databinding.SongMoreButtonBottomSheetBinding
+import com.example.musicplayer.ui.addToPlaylistBottomSheet.AddToPlaylistBottomSheet
 import com.example.musicplayer.ui.homeFragment.HomeFragmentDirections
 import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
 import com.example.musicplayer.utilities.PlayerEvents
@@ -57,6 +59,7 @@ class HomeSongMoreButtonBottomSheet
                     "",
                     song.songArtist
                 )
+                findNavController().navigateUp()
                 findNavController().navigate(action)
                 dismiss()
             }
@@ -66,12 +69,20 @@ class HomeSongMoreButtonBottomSheet
                     song.songAlbum,
                     ""
                 )
+                findNavController().navigateUp()
                 findNavController().navigate(action)
+
                 dismiss()
             }
             playNextSongMoreButton.setOnClickListener {
                 musicPlayerViewModel.onPlayerEvents(PlayerEvents.AddSongToPlayNext(song.songId))
 //                musicPlayerViewModel.onPlayerEvents(PlayerEvents.Next)
+                Toast.makeText(context, "This Song will be after the current song", Toast.LENGTH_SHORT).show();
+                dismiss()
+            }
+            addToPlaylistSongMoreButton.setOnClickListener{
+                val moreButtonBottomSheet = AddToPlaylistBottomSheet.newInstance(song)
+                fragmentManager?.let { moreButtonBottomSheet.show(it, moreButtonBottomSheet.tag) }
                 dismiss()
             }
         }

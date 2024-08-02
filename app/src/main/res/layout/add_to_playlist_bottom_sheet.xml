@@ -5,20 +5,22 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="#303030"
         tools:context=".ui.addToPlaylistBottomSheet.AddToPlaylistBottomSheet">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/playlist_names_rv"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginHorizontal="16dp"
             android:layout_marginVertical="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:listitem="@layout/add_to_playlist_rv_item" />
+            tools:listitem="@layout/add_to_playlist_rv_item"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

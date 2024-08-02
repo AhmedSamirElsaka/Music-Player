@@ -1,5 +1,6 @@
 package com.example.musicplayer.ui.addToPlaylistBottomSheet
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -21,6 +22,7 @@ class AddToPlaylistAdapter(
         val diffResult =
             DiffUtil.calculateDiff(BaseDiffUtil(list, newList, ::areItemsSame, ::areContentSame))
         list = newList
+//        Log.i("ahmed", "setData: " + newList)
         diffResult.dispatchUpdatesTo(this)
 
     }
@@ -33,6 +35,9 @@ class AddToPlaylistAdapter(
 
     override fun onBindViewHolder(holder: AddToPlaylistViewHolder, position: Int) {
         holder.binding.playListName.text = list[position].playlistName
+        Log.i("ahmed", "onBindViewHolder: "+   list[position].playlistName)
+
+        Log.i("ahmed", "onBindViewHolder: "+  holder.binding.playListName.text)
     }
 
     override fun getItemCount(): Int = list.size
