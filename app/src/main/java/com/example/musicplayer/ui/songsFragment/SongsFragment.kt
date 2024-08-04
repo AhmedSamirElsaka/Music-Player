@@ -65,8 +65,6 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
 
         songsAdapter = SongsAdapter(mutableListOf(), this)
 
-
-
         lifecycleScope.launch {
             if (requestReadExternalStoragePermission()) {
                 // Permission granted, start your actions
