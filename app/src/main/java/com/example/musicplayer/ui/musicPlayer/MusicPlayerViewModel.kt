@@ -31,6 +31,10 @@ class MusicPlayerViewModel @Inject constructor(
     private var _currentMediaPosition = MutableStateFlow(0f)
     val currentMediaPosition = _currentMediaPosition.asStateFlow()
 
+    private var _currentMediaPositionInList = MutableStateFlow(0f)
+    val currentMediaPositionInList = _currentMediaPositionInList.asStateFlow()
+
+
     private var _isPlayPlaying = MutableStateFlow(false)
     val isPlayPlaying = _isPlayPlaying.asStateFlow()
 
@@ -54,13 +58,12 @@ class MusicPlayerViewModel @Inject constructor(
         PlayerController(
             player, _currentSong, _currentMediaPosition,
             _currentSongDurationInMinutes, _currentSongProgressInMinutes, _isPlayPlaying,
-            _isPlayerBuffering, _isShuffleClicked, _isRepeatClick, viewModelScope, sharedPreferences
+            _isPlayerBuffering, _isShuffleClicked, _isRepeatClick, viewModelScope, sharedPreferences , _currentMediaPositionInList
         )
 
     init {
         player.addListener(playerController)
         playerController.setupMediaNotification(context)
-        Log.i("test", "test")
     }
 
     fun onPlayerEvents(event: PlayerEvents) {

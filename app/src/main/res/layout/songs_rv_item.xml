@@ -40,14 +40,14 @@
             android:textColor="@color/white"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/playlistMoreImage"
+            app:layout_constraintEnd_toStartOf="@+id/nonPlayedMoreImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:text="hello ahmed" />
 
         <TextView
-            android:id="@+id/playlistSongsCount"
+            android:id="@+id/nonPlayedSongArtistNameTv"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -65,14 +65,14 @@
             tools:text="AbbaVEVO" />
 
         <ImageButton
-            android:id="@+id/playlistMoreImage"
+            android:id="@+id/nonPlayedMoreImage"
             android:layout_width="@dimen/_16sdp"
             android:layout_height="@dimen/_16sdp"
             android:alpha="0.7"
             android:background="#00FFFFFF"
             android:onClick="@{() -> listener.onMoreImageClick(song)}"
             android:src="@drawable/three_dots"
-            app:layout_constraintBottom_toBottomOf="@+id/playlistSongsCount"
+            app:layout_constraintBottom_toBottomOf="@+id/nonPlayedSongArtistNameTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/nonPlayedSongNameTv"
             app:layout_constraintVertical_bias="0.5"
@@ -84,8 +84,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_8sdp"
-            android:foregroundTint="@color/main_color"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@{song.songName}"
+            android:textAlignment="textStart"
             android:textColor="@color/main_color"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -100,8 +102,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:foregroundTint="@color/main_color"
+            android:alpha="0.5"
+            android:ellipsize="end"
+            android:lines="1"
             android:text="@{song.songArtist}"
+            android:textAlignment="textStart"
             android:textColor="@color/main_color"
             android:textSize="@dimen/_12ssp"
             app:layout_constraintEnd_toEndOf="@+id/playedSongNameTv"
@@ -111,16 +116,16 @@
 
         <ImageView
             android:id="@+id/playedMoreImage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8sdp"
-            android:layout_marginHorizontal="16dp"
-            android:alpha="0.5"
+            android:layout_width="@dimen/_16sdp"
+            android:layout_height="@dimen/_16sdp"
+            android:alpha="0.7"
+            android:background="#00FFFFFF"
+            android:onClick="@{() -> listener.onMoreImageClick(song)}"
             android:src="@drawable/three_dots"
             app:layout_constraintBottom_toBottomOf="@+id/playedSongArtistNameTv"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/playedSongNameTv"
-            app:layout_constraintVertical_bias="0.031"
+            app:layout_constraintVertical_bias="0.5"
             app:tint="@color/white" />
 
         <androidx.constraintlayout.widget.Group
@@ -129,7 +134,7 @@
             android:layout_height="wrap_content"
             android:foregroundTint="@color/main_color"
             android:visibility="visible"
-            app:constraint_referenced_ids="playlistSongsCount , playlistMoreImage , playlistSongsCount" />
+            app:constraint_referenced_ids="nonPlayedSongArtistNameTv , nonPlayedSongNameTv , nonPlayedMoreImage" />
 
         <androidx.constraintlayout.widget.Group
             android:id="@+id/PlayedGroup"

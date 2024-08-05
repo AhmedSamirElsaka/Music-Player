@@ -30,7 +30,7 @@ class PlaylistRepository @Inject constructor(
             val cachedPlaylists = musicDao.getAllPlaylists()
             if (cachedPlaylists.isNotEmpty()) {
                 emit(UiState.Success(cachedPlaylists))
-                Log.i("hello", "getPlaylists: " + cachedPlaylists)
+                return@flow
             } else {
                 musicDao.insertPlaylist(PlaylistModel("Liked", mutableListOf()))
                 musicDao.insertPlaylist(PlaylistModel("Recently Played", mutableListOf()))

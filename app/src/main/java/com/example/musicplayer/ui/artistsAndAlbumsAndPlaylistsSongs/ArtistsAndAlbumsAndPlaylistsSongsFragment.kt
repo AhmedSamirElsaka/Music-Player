@@ -104,7 +104,7 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
                 }
             }
         }
-        songsAdapter = SongsAdapter(mutableListOf(), this)
+        songsAdapter = SongsAdapter(mutableListOf(), this , requireContext())
 
 
 

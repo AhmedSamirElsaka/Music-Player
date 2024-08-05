@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.example.musicplayer.R
 import com.example.musicplayer.databinding.FragmentHomeBinding
 import com.example.musicplayer.ui.base.BaseFragment
@@ -56,20 +57,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ClickHandlers {
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.find_local_songs -> {
-
+                    val action = HomeFragmentDirections.actionHomeFragmentToScanLocalMusicFragment()
+                    findNavController().navigate(action)
                     true
                 }
-
-                R.id.sort_by -> {
-
-                    true
-                }
-
-                R.id.manage_songs -> {
-
-                    true
-                }
-
                 R.id.settings -> {
 
                     true

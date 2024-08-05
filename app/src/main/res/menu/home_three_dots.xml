@@ -5,15 +5,6 @@
         android:id="@+id/find_local_songs"
         android:title="Find Local Songs"
         app:showAsAction="always" />
-
-    <item
-        android:id="@+id/sort_by"
-        android:title="Sort by "
-        app:showAsAction="always" />
-    <item
-        android:id="@+id/manage_songs"
-        android:title="Manage Songs"
-        app:showAsAction="always" />
     <item
         android:id="@+id/settings"
         android:title="Settings"

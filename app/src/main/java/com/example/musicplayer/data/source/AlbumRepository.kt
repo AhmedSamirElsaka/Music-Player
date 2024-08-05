@@ -43,6 +43,7 @@ class AlbumRepository @Inject constructor(
             val cachedAlbums = musicDao.getAllAlbums()
             if (cachedAlbums.isNotEmpty()) {
                 emit(UiState.Success(cachedAlbums))
+                return@flow
             }
             try {
                 fetchAlbumFilesFromDevice()

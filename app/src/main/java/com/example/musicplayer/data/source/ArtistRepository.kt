@@ -38,6 +38,7 @@ class ArtistRepository @Inject constructor(
             val cachedArtists = musicDao.getAllArtists()
             if (cachedArtists.isNotEmpty()) {
                 emit(UiState.Success(cachedArtists))
+                return@flow
             }
             try {
                 fetchArtistsFromDevice()

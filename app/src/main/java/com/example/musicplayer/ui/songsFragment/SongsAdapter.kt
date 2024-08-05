@@ -1,7 +1,8 @@
 package com.example.musicplayer.ui.songsFragment
 
-import android.util.Log
+import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -11,9 +12,12 @@ import com.example.musicplayer.ui.base.BaseDiffUtil
 
 class SongsAdapter(
     private var list: List<SongModel>,
-    private var listener: OnSongsListener
+    private var listener: OnSongsListener ,
+    private var context: Context
 ) : RecyclerView.Adapter<SongsAdapter.SongViewHolder>() {
 
+    private var isPlayedSongShowed :Boolean = false
+    private var playedSong:SongModel? = null
     class SongViewHolder(val binding: SongsRvItemBinding) : RecyclerView.ViewHolder(binding.root)
 
     fun setData(newList: List<SongModel>) {
@@ -30,9 +34,15 @@ class SongsAdapter(
     }
 
     override fun onBindViewHolder(holder: SongViewHolder, position: Int) {
+        if(playedSong != null && list[position] == playedSong ){
+            holder.binding.PlayedGroup.visibility = View.VISIBLE
+            holder.binding.nonPlayedGroup.visibility = View.GONE
+            isPlayedSongShowed = true
+        }else {
+            holder.binding.nonPlayedGroup.visibility = View.VISIBLE
+            holder.binding.PlayedGroup.visibility = View.GONE
+        }
         holder.binding.song = list[position]
-        holder.binding.playedSongNameTv.text = list[position].songName
-        holder.binding.nonPlayedSongNameTv.text = list[position].songName
         holder.binding.listener = listener
         holder.binding.position = position
 
@@ -48,6 +58,11 @@ class SongsAdapter(
 
     fun getData(): List<SongModel> {
         return list
+    }
+
+    fun setPlayedSong(song: SongModel){
+        playedSong = song
+        notifyDataSetChanged()
     }
 }
 

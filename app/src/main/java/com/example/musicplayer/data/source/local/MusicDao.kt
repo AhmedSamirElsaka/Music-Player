@@ -1,6 +1,7 @@
 package com.example.musicplayer.data.source.local
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
@@ -20,6 +21,8 @@ interface MusicDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllMusic(musics: List<SongModel>)
 
+    @Query("DELETE FROM SongModel")
+    suspend fun deleteAllMusic()
 
 
     @Query("SELECT * FROM SongModel WHERE songId = :songId")

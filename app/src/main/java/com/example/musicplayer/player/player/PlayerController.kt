@@ -32,7 +32,8 @@ class PlayerController(
     private var isShuffleClicked: MutableStateFlow<Boolean>,
     private var isRepeatClicked: MutableStateFlow<Boolean>,
     private val viewModelScope: CoroutineScope,
-    private var sharedPreferences: SharedPreferences
+    private var sharedPreferences: SharedPreferences ,
+    private var currentMediaPositionInList:MutableStateFlow<Float>
 ) : Player.Listener {
 
     var duration: Long = 0
@@ -51,7 +52,7 @@ class PlayerController(
         if (mediaItem != null) {
             currentSong.value = toMusicItem(mediaItem)
             saveFloatValue(player.currentMediaItemIndex.toFloat())
-            Log.i("hello", "onMediaItemTransition: " + player.currentMediaItemIndex.toFloat())
+            currentMediaPositionInList.value = player.currentMediaItemIndex.toFloat()
         }
     }
 
@@ -78,7 +79,6 @@ class PlayerController(
         when (playbackState) {
             Player.STATE_ENDED -> {
                 if (player.hasNextMediaItem()) {
-                    Log.i("hello", "onPlaybackStateChanged: true")
                     nextItem()
                     saveFloatValue(player.currentMediaItemIndex.toFloat())
                 }
@@ -119,6 +119,8 @@ class PlayerController(
             player.shuffleModeEnabled = isShuffleClicked.value
         }
     }
+
+
 
     fun repeatClick() {
         if (isRepeatClicked.value) {
@@ -177,7 +179,10 @@ class PlayerController(
     }
 
     fun nextItem() {
-        if (player.hasNextMediaItem()) player.seekToNextMediaItem()
+        if (player.hasNextMediaItem()){
+            player.seekToNextMediaItem()
+            currentMediaPositionInList.value = player.currentMediaItemIndex.toFloat()
+        }
     }
 
     fun goToSpecificItem(index: Int) {
@@ -185,10 +190,14 @@ class PlayerController(
         player.play()
         currentSong.value = toMusicItem(player.currentMediaItem!!)
         saveFloatValue(player.currentMediaItemIndex.toFloat())
+        currentMediaPositionInList.value = player.currentMediaItemIndex.toFloat()
     }
 
     fun previousItem() {
-        if (player.hasPreviousMediaItem()) player.seekToPreviousMediaItem()
+        if (player.hasPreviousMediaItem()){
+            player.seekToPreviousMediaItem()
+            currentMediaPositionInList.value = player.currentMediaItemIndex.toFloat()
+        }
     }
 
 

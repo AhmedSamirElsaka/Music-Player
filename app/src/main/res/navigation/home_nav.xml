@@ -18,6 +18,9 @@
         <action
             android:id="@+id/action_homeFragment_to_songInfoFragment"
             app:destination="@id/songInfoFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_scanLocalMusicFragment"
+            app:destination="@id/scanLocalMusicFragment" />
     </fragment>
 
     <fragment
@@ -58,6 +61,11 @@
             android:name="song"
             app:argType="com.example.musicplayer.data.model.SongModel" />
     </fragment>
+    <fragment
+        android:id="@+id/scanLocalMusicFragment"
+        android:name="com.example.musicplayer.ui.scanLocalMusicsFragment.ScanLocalMusicFragment"
+        android:label="fragment_scan_local_music"
+        tools:layout="@layout/fragment_scan_local_music" />
 
 
 </navigation>

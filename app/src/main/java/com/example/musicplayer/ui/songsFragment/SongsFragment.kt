@@ -47,6 +47,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
     lateinit var sharedPreferences: SharedPreferences
 
 
+
     private val requestPermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
@@ -63,7 +64,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        songsAdapter = SongsAdapter(mutableListOf(), this)
+        songsAdapter = SongsAdapter(mutableListOf(), this , requireContext())
 
         lifecycleScope.launch {
             if (requestReadExternalStoragePermission()) {
@@ -107,6 +108,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
                 fragmentManager?.let { sortBottomSheet.show(it, sortBottomSheet.tag) }
             }
         }
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioList.collect {
                 if (it is UiState.Success && it.data.isNotEmpty()) {
@@ -129,6 +131,13 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
                 }
             }
         }
+        viewLifecycleOwner.lifecycleScope.launch{
+            musicPlayerViewModel.currentMediaPositionInList.collect{
+                if(songsAdapter.getData().isNotEmpty()){
+                    songsAdapter.setPlayedSong(songsAdapter.getData()[it.toInt()])
+                }
+            }
+        }
 
 
     }
@@ -141,6 +150,8 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
         )
         val musicBottomSheetFragment = MusicBottomSheetFragment()
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
+
+        songsAdapter.setPlayedSong(song)
     }
 
     override fun onMoreImageClick(song: SongModel ) {

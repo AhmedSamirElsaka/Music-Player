@@ -41,9 +41,11 @@ class MusicRepository @Inject constructor(
         return flow {
             emit(UiState.Loading)
             val cachedMusic = musicDao.getAllMusic()
-            Log.i("hello", "getAudios1: " + cachedMusic)
+
+            Log.i("ahmed", "getAudios: cached " + cachedMusic)
             if (cachedMusic.isNotEmpty()) {
                 emit(UiState.Success(cachedMusic))
+                return@flow
             }
 
             // Check for permission
@@ -51,25 +53,20 @@ class MusicRepository @Inject constructor(
                 emit(UiState.Error("Permission not granted"))
                 return@flow
             }
-
-
             try {
                 fetchAudioFilesFromDevice()
                 coroutineScope {
                     _audioList.collect {
-                        Log.i("hello", "getAudios2: " + it)
                         if (it is UiState.Success) {
-                            Log.i("hello", "getAudios3: " + it)
+                            musicDao.deleteAllMusic()
                             musicDao.insertAllMusic(it.data)
                             emit(it)
                         }
                     }
                 }
-
             } catch (e: Exception) {
                 emit(UiState.Error("Error fetching Musics"))
             }
-
         }.flowOn(Dispatchers.IO)
     }
 
@@ -182,6 +179,33 @@ class MusicRepository @Inject constructor(
 
     private fun hasReadExternalStoragePermission(): Boolean {
         return ContextCompat.checkSelfPermission(appContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED
+    }
+
+
+     fun refreshSongsAndCaching():Flow<UiState<List<SongModel>>>{
+        return flow {
+            emit(UiState.Loading)
+
+            // Check for permission
+            if (!hasReadExternalStoragePermission()) {
+                emit(UiState.Error("Permission not granted"))
+                return@flow
+            }
+            try {
+                fetchAudioFilesFromDevice()
+                coroutineScope {
+                    _audioList.collect {
+                        if (it is UiState.Success) {
+                            musicDao.deleteAllMusic()
+                            musicDao.insertAllMusic(it.data)
+                            emit(it)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                emit(UiState.Error("Error fetching Musics"))
+            }
+        }.flowOn(Dispatchers.IO)
     }
 }
 
