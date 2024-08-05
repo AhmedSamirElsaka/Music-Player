@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_homeFragment_to_scanLocalMusicFragment"
             app:destination="@id/scanLocalMusicFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchFragment"
+            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -66,6 +69,10 @@
         android:name="com.example.musicplayer.ui.scanLocalMusicsFragment.ScanLocalMusicFragment"
         android:label="fragment_scan_local_music"
         tools:layout="@layout/fragment_scan_local_music" />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.example.musicplayer.ui.searchFragment.SearchFragment"
+        android:label="SearchFragment" />
 
 
 </navigation>

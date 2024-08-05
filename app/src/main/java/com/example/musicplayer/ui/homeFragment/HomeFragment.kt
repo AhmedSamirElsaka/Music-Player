@@ -1,11 +1,7 @@
 package com.example.musicplayer.ui.homeFragment
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
-import android.widget.SearchView
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -42,6 +38,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ClickHandlers {
         binding.more.setOnClickListener {
             showPopupMenu(it);
         }
+        binding.search.setOnClickListener {
+            val action = HomeFragmentDirections.actionHomeFragmentToSearchFragment(
+            )
+            findNavController().navigate(action)
+        }
 
         binding.viewModel = viewModel
         binding.clickHandler = this
@@ -65,6 +66,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ClickHandlers {
                     findNavController().navigate(action)
                     true
                 }
+
                 R.id.settings -> {
 
                     true
