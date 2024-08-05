@@ -1,7 +1,11 @@
 package com.example.musicplayer.ui.homeFragment
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.SearchView
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -77,5 +81,46 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ClickHandlers {
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 
+//    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+//        super.onCreateOptionsMenu(menu, inflater)
+//
+//        inflater.inflate(R.menu.search_item_menu, menu)
+//        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
+//        val searchView = searchItem?.actionView as SearchView
+//
+//        searchView.queryHint = "songs "
+//
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                // Handle search query submission
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                // Handle search text change
+//                return false
+//            }
+//        })
+//    }
+//    override fun onCreateOptionsMenu(menu: Menu? , inflater: MenuInflater ): Boolean {
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
+//        val searchView = searchItem?.actionView as SearchView
+//
+//        searchView.queryHint = getString(R.string.search_hint)
+//
+//        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+//            override fun onQueryTextSubmit(query: String?): Boolean {
+//                // Handle search query submission
+//                return false
+//            }
+//
+//            override fun onQueryTextChange(newText: String?): Boolean {
+//                // Handle search text change
+//                return false
+//            }
+//        })
+//        return true
+//    }
 
 }
