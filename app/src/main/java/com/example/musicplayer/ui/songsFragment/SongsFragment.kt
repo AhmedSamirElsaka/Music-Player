@@ -78,11 +78,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
 //        viewModel.fetchAllMusics()
 
 
-        binding.songsRv.apply {
-            adapter = songsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
-        }
+
         binding.apply {
             songsRv.adapter = songsAdapter
             songsRv.layoutManager = LinearLayoutManager(requireContext())
@@ -148,7 +144,7 @@ class SongsFragment : BaseFragment<FragmentSongsBinding>(), OnSongsListener,
                 song.songId
             )
         )
-        val musicBottomSheetFragment = MusicBottomSheetFragment()
+        val musicBottomSheetFragment = MusicBottomSheetFragment(song)
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
 
         songsAdapter.setPlayedSong(song)

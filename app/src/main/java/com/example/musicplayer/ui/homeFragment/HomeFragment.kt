@@ -79,7 +79,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), ClickHandlers {
     }
 
     override fun showMusicBottomSheet() {
-        val musicBottomSheetFragment = MusicBottomSheetFragment()
+        val musicBottomSheetFragment = MusicBottomSheetFragment(viewModel.currentSongFlow.value)
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 

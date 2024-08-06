@@ -1,60 +1,113 @@
 package com.example.musicplayer.ui.searchMoreButtonFragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.musicplayer.R
+import com.example.musicplayer.data.model.AlbumModel
+import com.example.musicplayer.data.model.ArtistModel
+import com.example.musicplayer.data.model.SongModel
+import com.example.musicplayer.databinding.FragmentSearchMoreButtonBinding
+import com.example.musicplayer.ui.albumFragment.AlbumAdapter
+import com.example.musicplayer.ui.albumFragment.OnAlbumListener
+import com.example.musicplayer.ui.artistFragment.ArtistAdapter
+import com.example.musicplayer.ui.artistFragment.OnArtistListener
+import com.example.musicplayer.ui.base.BaseFragment
+import com.example.musicplayer.ui.homeSongMoreButtonBottomSheet.HomeSongMoreButtonBottomSheet
+import com.example.musicplayer.ui.musicBottomSheet.MusicBottomSheetFragment
+import com.example.musicplayer.ui.musicPlayer.MusicPlayerViewModel
+import com.example.musicplayer.ui.searchFragment.SearchFragmentDirections
+import com.example.musicplayer.ui.songsFragment.OnSongsListener
+import com.example.musicplayer.ui.songsFragment.SongsAdapter
+import com.example.musicplayer.utilities.PlayerEvents
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [SearchMoreButtonFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-class SearchMoreButtonFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+class SearchMoreButtonFragment : BaseFragment<FragmentSearchMoreButtonBinding>(), OnSongsListener,
+    OnArtistListener, OnAlbumListener {
+    override val layoutFragmentId: Int = R.layout.fragment_search_more_button
+    override val viewModel: ViewModel
+        get() = TODO("Not yet implemented")
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+
+    private val musicPlayerViewModel: MusicPlayerViewModel by activityViewModels()
+    private lateinit var songsAdapter: SongsAdapter
+    private lateinit var artistAdapter: ArtistAdapter
+    private lateinit var albumAdapter: AlbumAdapter
+
+    val args: SearchMoreButtonFragmentArgs by navArgs()
+    private var albumList = arrayOf<AlbumModel>()
+    private var artistList = arrayOf<ArtistModel>()
+    private var songList = arrayOf<SongModel>()
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+
+        songsAdapter = SongsAdapter(mutableListOf(), this, requireContext())
+        artistAdapter = ArtistAdapter(mutableListOf(), this)
+        albumAdapter = AlbumAdapter(mutableListOf(), this, requireContext())
+
+        albumList = args.albumList
+        artistList = args.artistList
+        songList = args.songList
+
+
+        if (albumList.isNotEmpty()) {
+            albumAdapter.setData(albumList.toList())
+            binding.Rv.apply {
+                adapter = albumAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+        } else if (artistList.isNotEmpty()) {
+            artistAdapter.setData(artistList.toList())
+            binding.Rv.apply {
+                adapter = artistAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+        } else if (songList.isNotEmpty()) {
+            songsAdapter.setData(songList.toList())
+            binding.Rv.apply {
+                adapter = songsAdapter
+                layoutManager = LinearLayoutManager(requireContext())
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_search_more_button, container, false)
+    override fun onSongClick(song: SongModel, position: Int) {
+        musicPlayerViewModel.onPlayerEvents(
+            PlayerEvents.GetThePositionOfSpecificSongInsideThePlaylist(
+                song.songId
+            )
+        )
+        val musicBottomSheetFragment = MusicBottomSheetFragment(song)
+        fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SearchMoreButtonFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SearchMoreButtonFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onMoreImageClick(song: SongModel) {
+        val moreButtonBottomSheet = HomeSongMoreButtonBottomSheet.newInstance(song)
+        fragmentManager?.let { moreButtonBottomSheet.show(it, moreButtonBottomSheet.tag) }
     }
+
+    override fun onArtistClick(artistName: String) {
+        val action = SearchMoreButtonFragmentDirections.actionSearchMoreButtonFragmentToArtistsAndAlbumsSongFragment(
+            false,
+            "",
+            artistName,
+        )
+        findNavController().navigate(action)
+    }
+
+    override fun onAlbumClick(albumName: String) {
+        val action = SearchMoreButtonFragmentDirections.actionSearchMoreButtonFragmentToArtistsAndAlbumsSongFragment(
+            true,
+            albumName,
+            ""
+        )
+        findNavController().navigate(action)
+    }
+
 }

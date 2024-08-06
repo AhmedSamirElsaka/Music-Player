@@ -83,6 +83,30 @@
         <action
             android:id="@+id/action_searchFragment_to_newPlaylistFragment"
             app:destination="@id/newPlaylistFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_searchMoreButtonFragment"
+            app:destination="@id/searchMoreButtonFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/searchMoreButtonFragment"
+        android:name="com.example.musicplayer.ui.searchMoreButtonFragment.SearchMoreButtonFragment"
+        android:label="SearchMoreButtonFragment"
+        tools:layout="@layout/fragment_search_more_button">
+        <argument
+            android:name="songList"
+            app:argType="com.example.musicplayer.data.model.SongModel[]" />
+        <argument
+            android:name="artistList"
+            app:argType="com.example.musicplayer.data.model.ArtistModel[]" />
+        <argument
+            android:name="albumList"
+            app:argType="com.example.musicplayer.data.model.AlbumModel[]" />
+        <action
+            android:id="@+id/action_searchMoreButtonFragment_to_songInfoFragment"
+            app:destination="@id/songInfoFragment" />
+        <action
+            android:id="@+id/action_searchMoreButtonFragment_to_artistsAndAlbumsSongFragment"
+            app:destination="@id/artistsAndAlbumsSongFragment" />
     </fragment>
 
 

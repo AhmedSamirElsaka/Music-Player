@@ -39,6 +39,8 @@
             android:foregroundTint="@color/main_color"
             android:textColor="@color/white"
             android:textSize="@dimen/_16ssp"
+            android:ellipsize="end"
+            android:lines="1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/albumMoreImage"
             app:layout_constraintStart_toEndOf="@+id/albumImage"

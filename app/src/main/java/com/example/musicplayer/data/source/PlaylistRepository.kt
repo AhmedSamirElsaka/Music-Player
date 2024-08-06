@@ -60,5 +60,12 @@ class PlaylistRepository @Inject constructor(
         }
     }
 
+    fun getLikedPlaylist():Flow<UiState<PlaylistModel>>{
+        return flow {
+            emit(UiState.Loading)
+            val likedPlaylist = musicDao.getPlaylistByName("Liked")
+                emit(UiState.Success(likedPlaylist))
+        }.flowOn(Dispatchers.IO)
+    }
 
 }

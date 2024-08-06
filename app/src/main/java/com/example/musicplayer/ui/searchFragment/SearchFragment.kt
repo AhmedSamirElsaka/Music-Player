@@ -65,11 +65,34 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), OnSongsListener,
             layoutManager = LinearLayoutManager(requireContext())
         }
 
+        binding.songMoreTv.setOnClickListener {
+            val action = SearchFragmentDirections.actionSearchFragmentToSearchMoreButtonFragment(
+                viewModel.audioList.value.toData()!!.toTypedArray() ,
+                arrayOf() ,
+                arrayOf()
+            )
+            findNavController().navigate(action)
+        }
+        binding.artistMoreTv.setOnClickListener {
+            val action = SearchFragmentDirections.actionSearchFragmentToSearchMoreButtonFragment(
+                arrayOf() ,
+                viewModel.audioListGroupedByArtist.value.toData()!!.toTypedArray() ,
+                arrayOf()
+            )
+            findNavController().navigate(action)
+        }
+        binding.albumMoreTv.setOnClickListener {
+            val action = SearchFragmentDirections.actionSearchFragmentToSearchMoreButtonFragment(
+                arrayOf() ,
+                arrayOf() ,
+                viewModel.albumList.value.toData()!!.toTypedArray()
+            )
+            findNavController().navigate(action)
+        }
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.audioList.collect {
                 if (it is UiState.Success && it.data.isNotEmpty()) {
                     songsAdapter.setData((it.data).sortedByDescending { it.songDateAdded })
-                    Log.i("ahmed", "onViewCreated: " + it.data)
                 }
             }
         }
@@ -78,7 +101,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), OnSongsListener,
             viewModel.audioListGroupedByArtist.collect {
                 if (it is UiState.Success) {
                     artistAdapter.setData((it.data).sortedBy { it.artistName })
-                    Log.i("ahmed", "onViewCreated: " + it.data)
                 }
             }
         }
@@ -87,7 +109,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), OnSongsListener,
             viewModel.albumList.collect {
                 if (it is UiState.Success) {
                     albumAdapter.setData((it.data).sortedBy { it.albumName })
-                    Log.i("ahmed", "onViewCreated: " + it.data)
                 }
             }
         }
@@ -109,7 +130,6 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), OnSongsListener,
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                Log.i("ahmed", "onTextChanged: " + s)
                 if (!s.isNullOrEmpty()) {
                     viewModel.searchSong("$s")
                     viewModel.searchAlbum("$s")
@@ -132,7 +152,7 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(), OnSongsListener,
                 song.songId
             )
         )
-        val musicBottomSheetFragment = MusicBottomSheetFragment()
+        val musicBottomSheetFragment = MusicBottomSheetFragment(song)
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 

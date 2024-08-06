@@ -129,7 +129,7 @@ class ArtistsAndAlbumsAndPlaylistsSongsFragment :
                 song.songId
             )
         )
-        val musicBottomSheetFragment = MusicBottomSheetFragment()
+        val musicBottomSheetFragment = MusicBottomSheetFragment(song)
         fragmentManager?.let { musicBottomSheetFragment.show(it, musicBottomSheetFragment.tag) }
     }
 

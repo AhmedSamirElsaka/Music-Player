@@ -108,11 +108,13 @@
                     app:layout_constraintTop_toBottomOf="@+id/artistsRv"
                     app:layout_constraintVertical_bias="0.0" />
 
-                <TextView
+                <Button
                     android:id="@+id/song_more_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"
+                    android:background="@color/black"
+                    android:textAllCaps="false"
                     android:drawableEnd="@drawable/right_arrow"
                     android:drawableTint="@color/main_color"
                     android:text="More"
@@ -182,7 +184,7 @@
                     android:id="@+id/search_items_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:constraint_referenced_ids="album_more_tv , album_tv , AlbumsRv , artist_tv , artist_more_tv , artistsRv , song_more_tv , songsRv , song_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

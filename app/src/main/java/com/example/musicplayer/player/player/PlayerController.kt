@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Bundle
 import android.util.Log
 import androidx.media3.common.MediaItem
 import androidx.media3.common.MediaMetadata
@@ -206,6 +207,11 @@ class PlayerController(
     }
 
     private fun getMetaDataFromItem(item: SongModel): MediaMetadata {
+
+        val extras = Bundle().apply {
+            putString("KEY_SONG_PATH", item.songPath)
+        }
+
         return MediaMetadata.Builder()
             .setTitle(item.songName)
             .setAlbumTitle(item.songAlbum)
@@ -213,9 +219,9 @@ class PlayerController(
             .setArtist(item.songArtist)
             .setAlbumArtist(item.songArtist)
             .setArtworkUri(Uri.parse(item.songArt))
+            .setExtras(extras) // Add extras bundle to metadata
             .build()
     }
-
 
     fun updatePlayerSeekProgress(pos: Long) {
         currentMediaProgressInMinutes.value = pos
