@@ -138,13 +138,25 @@ class ArtistRepository @Inject constructor(
                 audioFilesGroupedByArtistList.add(u)
             }
 
-            _audioListGroupedByArtist.value = UiState.Success(audioFilesGroupedByArtistList.toSet().toList())
+            _audioListGroupedByArtist.value =
+                UiState.Success(audioFilesGroupedByArtistList.toSet().toList())
 
         }
     }
 
     private fun getSongArtUri(songId: Long): Uri? {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/media"), songId)
+    }
+
+    fun searchArtist(text: String): Flow<UiState<List<ArtistModel>>> {
+        return flow {
+            emit(UiState.Loading)
+            val cachedArtists = musicDao.searchArtistsByName(text)
+            if (cachedArtists.isNotEmpty()) {
+                emit(UiState.Success(cachedArtists))
+                return@flow
+            }
+        }
     }
 }
 

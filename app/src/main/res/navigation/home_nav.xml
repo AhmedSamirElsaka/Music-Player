@@ -72,7 +72,18 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.musicplayer.ui.searchFragment.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search">
+        <action
+            android:id="@+id/action_searchFragment_to_artistsAndAlbumsSongFragment"
+            app:destination="@id/artistsAndAlbumsSongFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_songInfoFragment"
+            app:destination="@id/songInfoFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_newPlaylistFragment"
+            app:destination="@id/newPlaylistFragment" />
+    </fragment>
 
 
 </navigation>

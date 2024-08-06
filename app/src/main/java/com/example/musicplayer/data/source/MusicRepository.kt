@@ -207,6 +207,18 @@ class MusicRepository @Inject constructor(
             }
         }.flowOn(Dispatchers.IO)
     }
+
+
+    fun searchSongs(text: String): Flow<UiState<List<SongModel>>> {
+        return flow {
+            emit(UiState.Loading)
+            val cachedArtists = musicDao.searchSongsByName(text)
+            if (cachedArtists.isNotEmpty()) {
+                emit(UiState.Success(cachedArtists))
+                return@flow
+            }
+        }
+    }
 }
 
 

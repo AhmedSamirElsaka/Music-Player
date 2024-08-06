@@ -16,16 +16,16 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <EditText
                     android:id="@+id/search_et"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
                     android:hint="song , artist , album"
+                    android:maxLines="1"
                     android:textColorHint="#4DFFFFFF"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/cancel_button"
@@ -38,9 +38,9 @@
                     android:id="@+id/cancel_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:backgroundTint="@color/black"
                     android:text="Cancel"
-                    android:layout_marginTop="8dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="1.0"
@@ -128,6 +128,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_150sdp"
                     android:layout_margin="24dp"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -139,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="24dp"
-                    android:text="Song"
+                    android:text="Album"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -180,8 +182,8 @@
                     android:id="@+id/search_items_group"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:constraint_referenced_ids="album_more_tv , album_tv , AlbumsRv , artist_tv , artist_more_tv , artistsRv , song_more_tv , songsRv , song_tv"
-                    android:visibility="gone" />
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="album_more_tv , album_tv , AlbumsRv , artist_tv , artist_more_tv , artistsRv , song_more_tv , songsRv , song_tv" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
     </LinearLayout>

@@ -61,4 +61,15 @@ interface MusicDao {
 
     @Query("SELECT * FROM PlaylistModel WHERE playlistName = :name ")
     fun getPlaylistByName(name: String): PlaylistModel
+
+
+    // Search methods
+    @Query("SELECT * FROM SongModel WHERE songName LIKE '%' || :text || '%'")
+    suspend fun searchSongsByName(text: String): List<SongModel>
+
+    @Query("SELECT * FROM ArtistModel WHERE artistName LIKE '%' || :text || '%'")
+    suspend fun searchArtistsByName(text: String): List<ArtistModel>
+
+    @Query("SELECT * FROM AlbumModel WHERE albumName LIKE '%' || :text || '%'")
+    suspend fun searchAlbumsByName(text: String): List<AlbumModel>
 }

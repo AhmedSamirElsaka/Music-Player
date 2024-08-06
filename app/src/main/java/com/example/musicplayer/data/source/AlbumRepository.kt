@@ -10,6 +10,7 @@ import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import com.example.musicplayer.data.model.AlbumModel
+import com.example.musicplayer.data.model.ArtistModel
 import com.example.musicplayer.data.model.SongModel
 import com.example.musicplayer.data.source.local.MusicDao
 import com.example.musicplayer.utilities.UiState
@@ -157,5 +158,17 @@ class AlbumRepository @Inject constructor(
 
     private fun getSongArtUri(songId: Long): Uri? {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/media"), songId)
+    }
+
+
+    fun searchAlbum(text: String): Flow<UiState<List<AlbumModel>>> {
+        return flow {
+            emit(UiState.Loading)
+            val cachedArtists = musicDao.searchAlbumsByName(text)
+            if (cachedArtists.isNotEmpty()) {
+                emit(UiState.Success(cachedArtists))
+                return@flow
+            }
+        }
     }
 }
