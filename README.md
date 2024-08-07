@@ -1,7 +1,7 @@
 # 🎵 Android Music Player
 
 ## 🚀 Getting Started
-- Welcome to the Android Music Player! This app allows users to enjoy their local audio files with a sleek and intuitive interface. Below are the key features and technologies used in this project.- This app typically includes a wide range of useful and important features that help users stay connected to their religion and community,Here are some of the key features offered by mohtdon:
+- Welcome to the Android Music Player! This app allows users to enjoy their local audio files with a sleek and intuitive interface
 ## ✨ Features
 - Scan Local Audios: Automatically scan and list all audio files on the device.
 - Play Audios: Seamlessly play audio files with controls for play, pause, skip, etc.
