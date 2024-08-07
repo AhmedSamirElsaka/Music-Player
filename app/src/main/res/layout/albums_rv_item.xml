@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:background="@color/black"
         android:onClick="@{()-> listener.onAlbumClick(albumNameVariable)}"
-        android:padding="@dimen/_8sdp">
+        android:paddingVertical="@dimen/_8sdp">
 
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -35,10 +35,12 @@
             android:id="@+id/albumName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_22sdp"
+
             android:foregroundTint="@color/main_color"
             android:textColor="@color/white"
-            android:textSize="@dimen/_16ssp"
+            android:textSize="@dimen/_12ssp"
             android:ellipsize="end"
             android:lines="1"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -52,11 +54,12 @@
             android:id="@+id/albumArtist"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_22sdp"
             android:alpha="0.5"
             android:foregroundTint="@color/main_color"
             android:textColor="@color/white"
-            android:textSize="@dimen/_11ssp"
+            android:textSize="@dimen/_12ssp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/albumMoreImage"
             app:layout_constraintHorizontal_bias="0.476"

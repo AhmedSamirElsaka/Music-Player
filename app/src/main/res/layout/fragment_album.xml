@@ -18,23 +18,22 @@
         android:id="@+id/albumsCountTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="@dimen/_16ssp"
+        android:textSize="@dimen/_12ssp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        android:layout_margin="@dimen/_8sdp"
-        android:text="@{String.format(`%d Album`, viewModel.albumList.toData().size())}"
-        />
+        android:layout_margin="16dp"
+        android:text="@{String.format(`%d Album`, viewModel.albumList.toData().size())}" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/AlbumsRv"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginVertical="16dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
